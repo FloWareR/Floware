@@ -1,0 +1,14 @@
+{
+    "name": "rafa/store-it",
+    "autoload": {
+        "psr-4": {
+            "Rafa\\StoreIt\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Floware",
+            "email": "rafaxtz3@gmail.com"
+        }
+    ]
+}
