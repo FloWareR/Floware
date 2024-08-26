@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Controllers\Helper;
+
 class Router {
     // Store routes in an array
     private $routes = [];
@@ -24,6 +26,13 @@ class Router {
         $path = trim($path, '/');
         $path = explode('/', $path);
 
+        if(!isset($path[1])) {
+            $path[1] = 'index';
+        }
+        if(!isset($path[2])) {
+            $path[2] = 'index';
+        }
+
         // Loop through the routes array
         foreach ($this->routes as $route) {            
             if ($route['method'] === strtoupper($requestMethod) && $route['path'] === $path[1]) {
@@ -34,26 +43,18 @@ class Router {
                         $controller->{$route['action']}();
                         return;
                     } else {
-                        $this->sendResponse(404, ['error' => 'Method not found']);
+                        Helper::sendResponse(404, ['error' => 'Method not found']);
                         return;
                     }
                 } else {
-                    $this->sendResponse(404, ['error' => 'Controller not found']);
+                    Helper::sendResponse(404, ['error' => 'Controller not found']);
                     return;
                 }
             } 
         }
 
         // If no route is found, send a 404 response
-        http_response_code(404);
-        header('Content-Type: application/json');
-        $this->sendResponse(404, ['error' => 'Route not found']);
+        Helper::sendResponse(404, ['error' => 'Route not found']);
     }
 
-
-    private function sendResponse($statusCode, $data) {
-        http_response_code($statusCode);
-        header('Content-Type: application/json');
-        echo json_encode($data);
-    }
 }

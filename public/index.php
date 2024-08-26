@@ -13,6 +13,7 @@ $router = new Router();
 $router->addRoute('GET', 'products', 'ProductsController', 'getproduct');
 $router->addRoute('POST', 'products', 'ProductsController', 'addproduct');
 $router->addRoute('PATCH', 'products', 'ProductsController', 'updateproduct');
+$router->addRoute('GET', 'index', 'IndexController', 'index');
 
 
 $router->enroute($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
