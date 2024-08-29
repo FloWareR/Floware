@@ -25,7 +25,7 @@ class Helper{
     }
 
     public static function getData() {
-        if($_SERVER['REQUEST_METHOD'] === 'GET') {
+        if($_SERVER['REQUEST_METHOD'] === 'GET' || $_SERVER['REQUEST_METHOD'] === 'DELETE') {
             return $_GET;
         }
         if($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'PATCH') {

@@ -50,15 +50,24 @@ class ProductController {
     public function update() { 
         $data = Helper::getData();
         if(!isset($_GET['id'])) {
-            http_response_code(400);
-            $response = ['error' => 'Product not found'];
-            echo json_encode($response);
+            Helper::sendResponse(400, ['error' => 'Product not found']);
             return;
         }
         $data['id'] = $_GET['id'];
         $response = $this->productModel->update($data);
         echo json_encode($response);
 
+    }
+
+    //Delete a product
+    public function delete() { 
+        $data = Helper::getData();
+        if(!isset($_GET['id'])) {
+            Helper::sendResponse(400, ['error' => 'Product not found']);
+            return;
+        }
+        $response = $this->productModel->delete($data);
+        Helper::sendResponse(200, $response);
     }
 
 

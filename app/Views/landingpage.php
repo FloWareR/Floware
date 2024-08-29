@@ -84,6 +84,7 @@
 
         .get { background-color: #61affe; color: white; }
         .post { background-color: #49cc90; color: white; }
+        .patch { background-color: #2ca39b  ; color: white; }
         .put { background-color: #fca130; color: white; }
         .delete { background-color: #f93e3e; color: white; }
 
@@ -154,22 +155,22 @@
 
             <h2>Endpoints</h2>
             <div class="endpoint">
-                <h3><span class="method post">POST</span>/floware/api/login</h3>
+                <h3><span class="method post">POST</span>floware/api/login</h3>
                 <p>Allows the user to log on & obtain a authentication token.</p>
                 <h4>JSON Body:</h4>
                 <ul>
                     <li><code>username</code> (required)</li>
                     <li><code>passoword</code> (required)</li>
+
                 </ul>
                 <pre><code>
 {
     <span class="key">"username"</span>: <span class="string">"JohnDoe"</span>,
     <span class="key">"password"</span>: <span class="string">"password"</span>
 
-}</code></pre>
-
+}</code></pre><br>
                 <h4>Response:</h4>
-                <pre><code>
+<pre><code>
 {
 
     <span class="key">"message"</span>: <span class="string">"User authenticated"</span>,
@@ -179,20 +180,101 @@
 }</code></pre>
                     </div>
                     <div class="endpoint">
-                        <h3><span class="method get">GET</span> /api/users</h3>
-                        <p>Create a new user.</p>
+                        <h3><span class="method get">GET</span> floware/api/getproduct</h3>
+                        <p>Returns a specific product or the whole list</p>
                         <h4>Request Body:</h4>
-                        <pre><code>{
-        <span class="key">"name"</span>: <span class="string">"Jane Doe"</span>,
-        <span class="key">"email"</span>: <span class="string">"jane@example.com"</span>,
-        <span class="key">"password"</span>: <span class="string">"securepassword"</span>
-        }</code></pre>
+                <ul>
+                    <li><code>id</code> (optional)</li>
+                    <li><code>floware/api/getproduct?id=1</code></li>
+
+                </ul>
                         <h4>Response:</h4>
                         <pre><code>{
-        <span class="key">"id"</span>: <span class="number">101</span>,
-        <span class="key">"name"</span>: <span class="string">"Jane Doe"</span>,
-        <span class="key">"email"</span>: <span class="string">"jane@example.com"</span>
-        }</code></pre>
+        <span class="key">"id"</span>: <span class="number">1</span>,
+        <span class="key">"name"</span>: <span class="string">"Product 1"</span>,
+        <span class="key">"description"</span>: <span class="string">"this is a description"</span>
+        <span class="key">"barcode"</span>: <span class="string">"A182373A"</span>
+        <span class="key">"sku"</span>: <span class="string">"GA-KAJ81"</span>
+        <span class="key">"price"</span>: <span class="number">"2499"</span>
+        <span class="key">"cost"</span>: <span class="number">"1999"</span>
+        <span class="key">"quantity"</span>: <span class="number">"5"</span>
+        <span class="key">"created_at"</span>: <span class="string">"2024-08-24 22:54:25"</span>
+        <span class="key">"updated_at"</span>: <span class="string">"2024-08-25 00:00:58"</span>
+
+}</code></pre>
+                    </div>
+                    <div class="endpoint">
+                        <h3><span class="method post">POST</span> floware/api/addproduct</h3>
+                        <p>Add a product to the inventory</p>
+                        <h4>JSON Body:</h4>
+                <ul>
+                    <li><code>name</code> (required)</li>
+                    <li><code>description</code> (required)</li>
+                    <li><code>sku</code> (optional)</li>
+                    <li><code>barcode</code> (optional)</li>
+                    <li><code>price</code> (required)</li>
+                    <li><code>cost</code> (optional)</li>
+                    <li><code>quantity</code> (required)</li>
+
+
+                </ul>
+                <pre><code>
+{
+        <span class="key">"name"</span>: <span class="string">"Product 2"</span>,
+        <span class="key">"description"</span>: <span class="string">"this is a description"</span>
+        <span class="key">"sku"</span>: <span class="string">"XXXXXXX"</span>
+        <span class="key">"barcode"</span>: <span class="string">"A182373A"</span>
+        <span class="key">"price"</span>: <span class="number">"2499"</span>
+        <span class="key">"cost"</span>: <span class="number">"1999"</span>
+        <span class="key">"quantity"</span>: <span class="number">"5"</span>
+
+}</code></pre><br>
+                        <h4>Response:</h4>
+                        <pre><code>{
+        <span class="key">"message"</span>: <span class="string">"Product created"</span>
+        <span class="key">"id"</span>: <span class="number">10</span>,
+
+}</code></pre>
+                    </div>
+                    <div class="endpoint">
+                        <h3><span class="method patch">PATCH</span> floware/api/updateproduct</h3>
+                        <p>Update product info</p>
+                        <h4>Request Body:</h4>
+                <ul>
+                    <li><code>id</code> (required)</li>
+                    <li><code>floware/api/updateproduct?id=1</code></li>
+
+                </ul>
+                        <h4>Response:</h4>
+                        <pre><code>{
+        <span class="key">"id"</span>: <span class="number">1</span>,
+        <span class="key">"name"</span>: <span class="string">"test product"</span>,
+        <span class="key">"sku"</span>: <span class="string">"test description"</span>
+        <span class="key">"barcode"</span>: <span class="string">"A182373A"</span>
+        <span class="key">"price"</span>: <span class="number">"2499"</span>
+        <span class="key">"cost"</span>: <span class="number">"1999"</span>
+        <span class="key">"quantity"</span>: <span class="number">"5"</span>
+        <span class="key">"created_at"</span>: <span class="string">"2024-08-24 22:54:25"</span>
+        <span class="key">"updated_at"</span>: <span class="string">"2024-08-25 00:00:58"</span>
+
+}</code></pre>
+                    </div>
+
+                    <div class="endpoint">
+                        <h3><span class="method delete">DELETE</span> floware/api/deleteproduct</h3>
+                        <p>Returns a specific product or the whole list</p>
+                        <h4>Request Body:</h4>
+                <ul>
+                    <li><code>id</code> (required)</li>
+                    <li><code>floware/api/deleteproduct?id=1</code></li>
+
+                </ul>
+                        <h4>Response:</h4>
+                        <pre><code>{
+        <span class="key">"message"</span>: <span class="string">"Product removed"</span>
+        <span class="key">"id"</span>: <span class="number">1</span>,
+
+}</code></pre>
                     </div>
                 </section>
             </main>

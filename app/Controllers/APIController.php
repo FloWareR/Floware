@@ -39,6 +39,10 @@ class APIController {
         $this->productController->update();
     }
 
+    public function deleteProduct($data) { 
+        if(!$this->verifyToken($data)) return;
+        $this->productController->delete();
+    }
     #endregion
 
 
