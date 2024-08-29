@@ -7,7 +7,7 @@
 </Files>
 
 RewriteEngine On
-RewriteBase /StoreIt
+RewriteBase /Floware
 
 RewriteCond %{THE_REQUEST} /public/([^\s?]*) [NC]
 RewriteEngine On

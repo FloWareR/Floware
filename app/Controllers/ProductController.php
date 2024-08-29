@@ -4,36 +4,38 @@ namespace App\Controllers;
 
 use App\Models\Product;
 use App\Controllers\Helper;
-use PHPUnit\TextUI\Help;
 
-class ProductsController {
+class ProductController {
 
     private $productModel;
 
+    #region Products
     public function __construct() {
         $this->productModel = new Product();
     }
-
-    public function getProduct() {
-        $data = $_GET;
-        if(!isset($data['id'])){
-            $response = $this->productModel->readAll();
-            Helper::sendResponse(200, $response);
-            return;
-        }
-
-        $response = $this->productModel->readById($data);
-
+    
+    //Return a product by id
+    public function getById(){
+        $data = Helper::getData();
+        $response = $this->productModel->readById($data['id']);
         if(!$response) {
-            Helper::sendResponse(404, ['error' => 'Product not ound']);
+            Helper::sendResponse(404, ['error' => 'Product not found']);
             return;
         }
-
         Helper::sendResponse(200, $response);
 
     }
 
-    public function addProduct() { 
+    //Return all products
+    public function getAll() {
+        $data = Helper::getData();
+        $response = $this->productModel->readAll();
+        Helper::sendResponse(200, $response);
+        return;
+    }
+
+    //Add a product
+    public function add() { 
         $data = Helper::getData();
         if(!isset($data['name']) || !isset($data['description']) || !isset($data['price']) || !isset($data['quantity'])) {
             Helper::sendResponse(400, ['error' => 'Missing Data']);
@@ -44,7 +46,8 @@ class ProductsController {
         Helper::sendResponse(201, $response);
     }
 
-    public function updateProduct() { 
+    //Update a product
+    public function update() { 
         $data = Helper::getData();
         if(!isset($_GET['id'])) {
             http_response_code(400);
@@ -59,5 +62,4 @@ class ProductsController {
     }
 
 
-    
 }

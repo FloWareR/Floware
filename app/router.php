@@ -27,7 +27,7 @@ class Router {
         $path = explode('/', $path);
 
         if(!isset($path[1])) {
-            $path[1] = 'index';
+            $path[1] = 'views';
         }
         if(!isset($path[2])) {
             $path[2] = 'index';
@@ -35,12 +35,12 @@ class Router {
 
         // Loop through the routes array
         foreach ($this->routes as $route) {            
-            if ($route['method'] === strtoupper($requestMethod) && $route['path'] === $path[1]) {
+            if ($route['method'] === strtoupper($requestMethod) && $route['path'] === $path[1] && $route['action'] === $path[2]) {
                 $controller = 'App\\Controllers\\' . $route['controller'];
                 if(class_exists($controller)) {
                     $controller = new $controller();
                     if(method_exists($controller, $path[2])){ 
-                        $controller->{$route['action']}();
+                        $controller->{$route['action']}($data = Helper::getData());
                         return;
                     } else {
                         Helper::sendResponse(404, ['error' => 'Method not found']);

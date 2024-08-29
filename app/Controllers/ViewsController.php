@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-class IndexController {
+class ViewsController {
 
     private $path;
 
@@ -12,6 +12,7 @@ class IndexController {
 
     public function index() {
         if(file_exists($this->path . '\\landingpage.php')) {
+            header('Content-Type: text/html');
             echo file_get_contents($this->path . '\\landingpage.php');
         } else {
             echo 'Error: File not found';

@@ -2,6 +2,9 @@
 
 namespace App\Controllers;
 
+
+use App\Middleware\JWTMiddleware;
+
 class Helper{
 
   public static function getParamType($value) {
@@ -18,13 +21,17 @@ class Helper{
 
     public static function sendResponse($statusCode, $data) {
         http_response_code($statusCode);
-        header('Content-Type: application/json');
         echo json_encode($data);
     }
 
     public static function getData() {
-        $inputData = file_get_contents('php://input');
-        return json_decode($inputData, true);
+        if($_SERVER['REQUEST_METHOD'] === 'GET') {
+            return $_GET;
+        }
+        if($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'PATCH') {
+            $inputData = file_get_contents('php://input');
+            return json_decode($inputData, true);        }
     }
+
 
 }

@@ -27,7 +27,7 @@ class Product {
     public function readById($params){
         $query = "SELECT * FROM {$this->table} WHERE id = :id";
         $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':id', $params['id'], \PDO::PARAM_INT);
+        $stmt->bindParam(':id', $params, \PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
@@ -49,7 +49,8 @@ class Product {
         }
 
         $stmt->execute();
-        return ['message' => 'Product created'];
+        $newId = $this->db->lastInsertId();
+        return ['message' => 'Product created', 'id' => $newId];
     }
 
     public function update($params){
@@ -70,7 +71,8 @@ class Product {
             }
         }       
 
-        $stmt->execute();
+        $stmt->execute();    
+
         return ['message' => 'Product updated'];
     }
 }
