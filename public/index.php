@@ -11,13 +11,13 @@ $dotenv->load();
 
 // Load routes
 $router = new Router();
-$router->addRoute('GET', 'api', 'APIController', 'getproduct');       //API
-$router->addRoute('POST', 'api', 'APIController', 'addproduct');      //API
-$router->addRoute('PATCH', 'api', 'APIController', 'updateproduct');  //API
-$router->addRoute('POST', 'api', 'APIController', 'login');           //API
-$router->addRoute('DELETE', 'api', 'APIController', 'deleteproduct');           //API
+$router->addRoute('GET', 'api', 'APIController', 'getproduct', 'staff');        //API
+$router->addRoute('POST', 'api', 'APIController', 'addproduct', 'admin');       //API
+$router->addRoute('PATCH', 'api', 'APIController', 'updateproduct','admin');    //API
+$router->addRoute('POST', 'api', 'APIController', 'login','admin' );            //API
+$router->addRoute('DELETE', 'api', 'APIController', 'deleteproduct','admin');   //API
 
-$router->addRoute('GET', 'views', 'ViewsController', 'index');        //Views
+$router->addRoute('GET', 'views', 'ViewsController', 'index','');        //Views
 
 
 $router->enroute($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);

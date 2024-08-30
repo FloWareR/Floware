@@ -146,7 +146,7 @@
             <p>To use this API, you must login using the credentials provided by the admin. 
                 You will receive a Jason Web Token that you must include in the header of each request.</p>
              </p>
-            <pre><code>token: {YOUR_API_KEY} </code></pre><br>
+            <pre><code>token: Bearer {YOUR_API_KEY} </code></pre><br>
             <p></p>
 
         </section>

@@ -9,12 +9,13 @@ class Router {
     private $routes = [];
 
     // Add a route to the routes array
-    public function addRoute($method, $path, $controller, $action) {
+    public function addRoute($method, $path, $controller, $action, $clearance) {
         $this->routes[] = [
             'method' => $method,
             'path' => $path,
             'controller' => $controller,
-            'action' => $action
+            'action' => $action,
+            'clearance' => $clearance
         ];
     }
 
@@ -40,7 +41,7 @@ class Router {
                 if(class_exists($controller)) {
                     $controller = new $controller();
                     if(method_exists($controller, $path[2])){ 
-                        $controller->{$route['action']}($data = Helper::getData());
+                        $controller->{$route['action']}($route['clearance'], $data = Helper::getData());
                         return;
                     } else {
                         Helper::sendResponse(404, ['error' => 'Method not found']);

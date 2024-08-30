@@ -20,8 +20,8 @@ class APIController {
         $this->jwtMiddleware = new JWTMiddleware();
     }
 
-    public function getProduct($data) {
-        if(!$this->verifyToken($data)) return;
+    public function getProduct($clearance, $data) {
+        if(!$token = $this->verifyToken($clearance, $data)) return;
         if(isset($_GET['id'])) {
             $this->productController->getById();
             return;
@@ -29,18 +29,18 @@ class APIController {
        $this->productController->getAll();
     }
 
-    public function addProduct($data) { 
-        if(!$this->verifyToken($data)) return;
+    public function addProduct($clearance, $data) { 
+        if(!$this->verifyToken($clearance, $data)) return;
         $this->productController->add();
     }
 
-    public function updateProduct($data) { 
-        if(!$this->verifyToken($data)) return;
+    public function updateProduct($clearance, $data) { 
+        if(!$this->verifyToken($clearance, $data)) return;
         $this->productController->update();
     }
 
-    public function deleteProduct($data) { 
-        if(!$this->verifyToken($data)) return;
+    public function deleteProduct($clearance, $data) { 
+        if(!$this->verifyToken($clearance, $data)) return;
         $this->productController->delete();
     }
     #endregion
@@ -58,11 +58,11 @@ class APIController {
 
 
     #region JWT
-    public function verifyToken($data) {
-        if($this->jwtMiddleware->verifyToken($data)) {
+    public function verifyToken($clearance, $data) {
+        if($this->jwtMiddleware->verifyToken($clearance, $data)) {
            return true;
         } else {
-            Helper::sendResponse(401, ['message' => 'Token is invalid']);
+            Helper::sendResponse(401, ['message' => 'Unauthorized']);
             return false;
         }
     }

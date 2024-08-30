@@ -26,8 +26,8 @@ class AuthController {
           return;
       }
       if(password_verify($data['password'], $user['password'])) {
-        $jwtoken = $this->jwtMiddleware->generateToken($data['username']);
-        Helper::sendResponse(200, ['message' => 'User authenticated', 'token' => $jwtoken]);
+        $jwtoken = $this->jwtMiddleware->generateToken($user['username'], $user['role'], $user['id']);
+        Helper::sendResponse(200, ['message' => 'User authenticated', 'token' => "Bearer ". $jwtoken]);
         return;
       } else {
         Helper::sendResponse(401, ['error' => 'P']);
