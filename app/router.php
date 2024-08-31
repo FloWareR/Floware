@@ -3,11 +3,17 @@
 namespace App;
 
 use App\Controllers\Helper;
+use App\Middleware\MiddlewareManager;
 
 class Router {
     // Store routes in an array
     private $routes = [];
+    private $middlewareManager;
 
+    public function __construct() {
+        $this->middlewareManager = new MiddlewareManager();
+    }
+    
     // Add a route to the routes array
     public function addRoute($method, $path, $controller, $action, $clearance) {
         $this->routes[] = [
@@ -41,7 +47,11 @@ class Router {
                 if(class_exists($controller)) {
                     $controller = new $controller();
                     if(method_exists($controller, $path[2])){ 
-                        $controller->{$route['action']}($route['clearance'], $data = Helper::getData());
+                        if(!$this->middlewareManager->authMiddleware($route)) {
+                            Helper::sendResponse(401, ['error' => 'Unauthorized']);
+                            return;
+                        }
+                        $controller->{$route['action']}(Helper::getData()); 
                         return;
                     } else {
                         Helper::sendResponse(404, ['error' => 'Method not found']);

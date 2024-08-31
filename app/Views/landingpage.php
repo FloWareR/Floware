@@ -12,6 +12,7 @@
             --text-color: #333;
             --code-background: #2d2d2d;
             --code-color: #f8f8f2;
+
         }
 
         * {
@@ -38,12 +39,15 @@
             background-color: var(--secondary-color);
             color: white;
             padding: 0.5rem;
+            list-style-type: none;
+
         }
 
         nav ul {
-            list-style-type: none;
+            list-style: none;
             display: flex;
             justify-content: center;
+
         }
 
         nav ul li {
@@ -53,6 +57,12 @@
         nav ul li a {
             color: white;
             text-decoration: none;
+
+        }
+
+        ul {
+            list-style: none;
+
         }
 
         main {
@@ -160,7 +170,7 @@
                 <h4>JSON Body:</h4>
                 <ul>
                     <li><code>username</code> (required)</li>
-                    <li><code>passoword</code> (required)</li>
+                    <li><code>password</code> (required)</li>
 
                 </ul>
                 <pre><code>
@@ -174,7 +184,7 @@
 {
 
     <span class="key">"message"</span>: <span class="string">"User authenticated"</span>,
-    <span class="key">"token"</span>: <span class="string">"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9eyJ0eXAiOi
+    <span class="key">"token"</span>: <span class="string">"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9eyJ0eXAiOi
         JKV1QiLCJhbGciOiJIUzI1NiJ9eyJ0eXAiOiJKV1QiLCJhbGciOiJNiJ9"</span>,
 
 }</code></pre>

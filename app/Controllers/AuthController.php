@@ -19,7 +19,6 @@ class AuthController {
     }
 
     public function authenticate($data) {
-      $hashedpassword = password_hash($data['password'], PASSWORD_BCRYPT, $options = ['cost' => 10, ]);
       $user = $this->userModel->getUserData($data);
       if(!$user) {
           Helper::sendResponse(404, ['error' => 'User not found']);
@@ -30,7 +29,7 @@ class AuthController {
         Helper::sendResponse(200, ['message' => 'User authenticated', 'token' => "Bearer ". $jwtoken]);
         return;
       } else {
-        Helper::sendResponse(401, ['error' => 'P']);
+        Helper::sendResponse(401, ['error' => 'Password incorrect']);
         return;
       }
       return $user;

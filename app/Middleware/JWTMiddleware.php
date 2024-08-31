@@ -13,7 +13,7 @@ class JWTMiddleware {
     $this->secretKey = $_ENV['SECRET_KEY'];
   }
 
-  public function verifyToken($clearance, $data) {
+  public function runMiddleware($clearance) {
     $headers = apache_request_headers();
     $authHeader = $headers['token'] ?? null;
     if ($authHeader && preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
@@ -39,7 +39,7 @@ class JWTMiddleware {
 
   public function generateToken($username, $role, $id) {
     $issuedAt = time();
-    $expiration = $issuedAt + 3600; 
+    $expiration = $issuedAt + 5400; //1.5 hours
 
     $payload = [
         'iat' => $issuedAt,

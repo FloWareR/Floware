@@ -1,6 +1,9 @@
 <?php 
 require '../vendor/autoload.php'; 
 header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');  // Allow all origins (useful for development)
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS');  // Allow specific methods
+header('Access-Control-Allow-Headers: Content-Type, token');  
 
 use Dotenv\Dotenv;
 use App\Router;
@@ -9,15 +12,21 @@ use App\Router;
 $dotenv = Dotenv::createImmutable(dirname(__DIR__ . '\\'));
 $dotenv->load();
 
+// Handle preflight requests
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+  http_response_code(200);
+  exit;
+}
+
 // Load routes
 $router = new Router();
+$router->addRoute('POST', 'api', 'APIController', 'login', null);               //API
 $router->addRoute('GET', 'api', 'APIController', 'getproduct', 'staff');        //API
 $router->addRoute('POST', 'api', 'APIController', 'addproduct', 'admin');       //API
 $router->addRoute('PATCH', 'api', 'APIController', 'updateproduct','admin');    //API
-$router->addRoute('POST', 'api', 'APIController', 'login','admin' );            //API
 $router->addRoute('DELETE', 'api', 'APIController', 'deleteproduct','admin');   //API
 
-$router->addRoute('GET', 'views', 'ViewsController', 'index','');        //Views
+$router->addRoute('GET', 'views', 'ViewsController', 'index', null);            //Views
 
 
 $router->enroute($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
