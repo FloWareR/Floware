@@ -4,16 +4,14 @@ namespace App;
 
 use App\Controllers\Helper;
 use App\Middleware\MiddlewareManager;
-
+ 
 class Router {
     // Store routes in an array
     private $routes = [];
     private $middlewareManager;
-    private $production;
 
-    public function __construct($production) {
+    public function __construct() {
         $this->middlewareManager = new MiddlewareManager();
-        $this->production = $production;
     }
     
     // Add a route to the routes array
@@ -35,7 +33,7 @@ class Router {
         $path = trim($path, '/');
         $path = explode('/', $path);
 
-        if (!$this->production) {
+        if ($_ENV['PROD'] == 'false') {
             array_shift($path);
         }
         

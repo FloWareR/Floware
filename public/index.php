@@ -3,12 +3,11 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: localhost');  // Allow all origins (useful for development)
+header('Access-Control-Allow-Origin: *');  // Allow all origins (useful for development)
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PATCH, DELETE');  // Allow specific methods
-header('Access-Control-Allow-Headers: Content-Type, token');  
+header('Access-Control-Allow-Headers: Content-Type, token'); 
 
 require_once __DIR__.'/../vendor/autoload.php';
-$production = false;
 
 use Dotenv\Dotenv;
 use App\Router; 
@@ -17,6 +16,7 @@ use App\Router;
 $dotenv = Dotenv::createImmutable(dirname(__DIR__ . '\\'));
 $dotenv->load();
 
+
 // Handle preflight requests
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
   http_response_code(200);
@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // Load routes
-$router = new Router($production);
+$router = new Router();
 $router->addRoute('POST', 'api', 'APIController', 'login', null);               //API
 $router->addRoute('GET', 'api', 'APIController', 'getproduct', 'staff');        //API
 $router->addRoute('POST', 'api', 'APIController', 'addproduct', 'admin');       //API
