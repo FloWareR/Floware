@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Floware API</title>
+    <title>Floware.studio API</title>
     <style>
         :root {
             --primary-color: #3498db;
@@ -132,7 +132,7 @@
 </head>
 <body>
     <header>
-        <h1>Floware API</h1>
+        <h1>Floware.studio API</h1>
     </header>
     <nav>
         <ul>
@@ -165,7 +165,7 @@
 
             <h2>Endpoints</h2>
             <div class="endpoint">
-                <h3><span class="method post">POST</span>floware/api/login</h3>
+                <h3><span class="method post">POST</span>floware.studio/api/login</h3>
                 <p>Allows the user to log on & obtain a authentication token.</p>
                 <h4>JSON Body:</h4>
                 <ul>
@@ -190,12 +190,12 @@
 }</code></pre>
                     </div>
                     <div class="endpoint">
-                        <h3><span class="method get">GET</span> floware/api/getproduct</h3>
+                        <h3><span class="method get">GET</span> floware.studio/api/getproduct</h3>
                         <p>Returns a specific product or the whole list</p>
                         <h4>Request Body:</h4>
                 <ul>
                     <li><code>id</code> (optional)</li>
-                    <li><code>floware/api/getproduct?id=1</code></li>
+                    <li><code>floware.studio/api/getproduct?id=1</code></li>
 
                 </ul>
                         <h4>Response:</h4>
@@ -214,7 +214,7 @@
 }</code></pre>
                     </div>
                     <div class="endpoint">
-                        <h3><span class="method post">POST</span> floware/api/addproduct</h3>
+                        <h3><span class="method post">POST</span> floware.studio/api/addproduct</h3>
                         <p>Add a product to the inventory</p>
                         <h4>JSON Body:</h4>
                 <ul>
@@ -247,12 +247,12 @@
 }</code></pre>
                     </div>
                     <div class="endpoint">
-                        <h3><span class="method patch">PATCH</span> floware/api/updateproduct</h3>
+                        <h3><span class="method patch">PATCH</span> floware.studio/api/updateproduct</h3>
                         <p>Update product info</p>
                         <h4>Request Body:</h4>
                 <ul>
                     <li><code>id</code> (required)</li>
-                    <li><code>floware/api/updateproduct?id=1</code></li>
+                    <li><code>floware.studio/api/updateproduct?id=1</code></li>
 
                 </ul>
                         <h4>Response:</h4>
@@ -271,12 +271,12 @@
                     </div>
 
                     <div class="endpoint">
-                        <h3><span class="method delete">DELETE</span> floware/api/deleteproduct</h3>
+                        <h3><span class="method delete">DELETE</span> floware.studio/api/deleteproduct</h3>
                         <p>Returns a specific product or the whole list</p>
                         <h4>Request Body:</h4>
                 <ul>
                     <li><code>id</code> (required)</li>
-                    <li><code>floware/api/deleteproduct?id=1</code></li>
+                    <li><code>floware.studio/api/deleteproduct?id=1</code></li>
 
                 </ul>
                         <h4>Response:</h4>
