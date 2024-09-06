@@ -146,7 +146,7 @@
 
             <h2>Introduction</h2>
             <p>Welcome to our API documentation. This API will allow you to access our inventory management system, 
-                do remember we have a mobile app!</p>
+                feel free to contact us if you need assistance!</p>
 
         </section>
         <br>
