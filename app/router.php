@@ -9,9 +9,11 @@ class Router {
     // Store routes in an array
     private $routes = [];
     private $middlewareManager;
+    private $production;
 
-    public function __construct() {
+    public function __construct($production) {
         $this->middlewareManager = new MiddlewareManager();
+        $this->production = $production;
     }
     
     // Add a route to the routes array
@@ -33,20 +35,24 @@ class Router {
         $path = trim($path, '/');
         $path = explode('/', $path);
 
-        if(!isset($path[1])) {
-            $path[1] = 'views';
+        if (!$this->production) {
+            array_shift($path);
+            print_r($path);
         }
-        if(!isset($path[2])) {
-            $path[2] = 'index';
+        if(!isset($path[0])) {
+            $path[0] = 'views';
+        }
+        if(!isset($path[1])) {
+            $path[1] = 'index';
         }
 
         // Loop through the routes array
         foreach ($this->routes as $route) {            
-            if ($route['method'] === strtoupper($requestMethod) && $route['path'] === $path[1] && $route['action'] === $path[2]) {
+            if ($route['method'] === strtoupper($requestMethod) && $route['path'] === $path[0] && $route['action'] === $path[1]) {
                 $controller = 'App\\Controllers\\' . $route['controller'];
                 if(class_exists($controller)) {
                     $controller = new $controller();
-                    if(method_exists($controller, $path[2])){ 
+                    if(method_exists($controller, $path[1])){ 
                         if(!$this->middlewareManager->authMiddleware($route)) {
                             Helper::sendResponse(401, ['error' => 'Unauthorized']);
                             return;

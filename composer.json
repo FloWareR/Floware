@@ -1,5 +1,5 @@
 {
-    "name": "rafa/store-it",
+    "name": "floware/studio",
     "autoload": {
         "psr-4": {
             "App\\": "app/"
