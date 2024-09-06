@@ -9,7 +9,7 @@ header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PATCH, DELETE');  // A
 header('Access-Control-Allow-Headers: Content-Type, token');  
 
 require_once __DIR__.'/../vendor/autoload.php';
-$production = false;
+$production = true;
 
 use Dotenv\Dotenv;
 use App\Router; 
