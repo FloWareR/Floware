@@ -15,8 +15,7 @@ class ProductController {
     }
     
     //Return a product by id
-    public function getById(){
-        $data = Helper::getData();
+    public function getById($data){
         $response = $this->productModel->readById($data['id']);
         if(!$response) {
             Helper::sendResponse(404, ['error' => 'Product not found']);
@@ -27,16 +26,14 @@ class ProductController {
     }
 
     //Return all products
-    public function getAll() {
-        $data = Helper::getData();
+    public function getAll($data) {
         $response = $this->productModel->readAll();
         Helper::sendResponse(200, $response);
         return;
     }
 
     //Add a product
-    public function add() { 
-        $data = Helper::getData();
+    public function add($data) { 
         if(!isset($data['name']) || !isset($data['description']) || !isset($data['price']) || !isset($data['quantity'])) {
             Helper::sendResponse(400, ['error' => 'Missing Data']);
             return;
@@ -47,10 +44,9 @@ class ProductController {
     }
 
     //Update a product
-    public function update() { 
-        $data = Helper::getData();
-        if(!isset($_GET['id'])) {
-            Helper::sendResponse(400, ['error' => 'Product not found']);
+    public function update($data) { 
+        if(!isset($_GET['id']) || !isset($data)) {
+            Helper::sendResponse(400, ['error' => 'Product not found or data missing']);
             return;
         }
         $data['id'] = $_GET['id'];
@@ -60,8 +56,7 @@ class ProductController {
     }
 
     //Delete a product
-    public function delete() { 
-        $data = Helper::getData();
+    public function delete($data) { 
         if(!isset($_GET['id'])) {
             Helper::sendResponse(400, ['error' => 'Product not found']);
             return;

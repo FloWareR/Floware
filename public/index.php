@@ -1,8 +1,9 @@
 <?php 
-require '../vendor/autoload.php'; 
+require dirname(__DIR__) . '/vendor/autoload.php'; 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');  // Allow all origins (useful for development)
-header('Access-Control-Allow-Methods: GET, POST, OPTIONS');  // Allow specific methods
+header("Access-Control-Allow-Origin: http://floware.me");
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PATCH, DELETE');  // Allow specific methods
 header('Access-Control-Allow-Headers: Content-Type, token');  
 
 use Dotenv\Dotenv;

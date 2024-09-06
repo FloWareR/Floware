@@ -20,22 +20,22 @@ class APIController {
 
     public function getProduct($data) {
         if(isset($_GET['id'])) {
-            $this->productController->getById();
+            $this->productController->getById($data);
             return;
         }
-       $this->productController->getAll();
+       $this->productController->getAll($data);
     }
 
     public function addProduct($data) { 
-        $this->productController->add();
+        $this->productController->add($data);
     }
 
     public function updateProduct($data) { 
-        $this->productController->update();
+        $this->productController->update($data);
     }
 
     public function deleteProduct($data) { 
-        $this->productController->delete();
+        $this->productController->delete($data);
     }
     #endregion
 
