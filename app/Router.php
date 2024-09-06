@@ -37,12 +37,10 @@ class Router {
 
         if (!$this->production) {
             array_shift($path);
-            print_r($path);
         }
-        if(!isset($path[0])) {
-            $path[0] = 'views';
-        }
+        
         if(!isset($path[1])) {
+            $path[0] = 'views';
             $path[1] = 'index';
         }
 
