@@ -19,7 +19,7 @@ class AuthController {
     }
 
     public function authenticate($data) {
-      $user = $this->userModel->getUserData($data);
+      $user = $this->userModel->get($data);
       if(!$user) {
           Helper::sendResponse(404, ['error' => 'User not found']);
           return;
@@ -33,5 +33,25 @@ class AuthController {
         return;
       }
       return $user;
+    }
+
+    public function create($data){
+      $userExists = $this->userModel->get($data);
+      if($userExists) {
+        Helper::sendResponse(409, ['error' => 'User already exists']);
+        return;
+      }
+      $data['password'] = $this->encryptPassword($data['password']);
+      $response = $this->userModel->create($data);
+      if(isset($response['error'])) {
+        Helper::sendResponse(500, $response);
+        return;
+      }
+      Helper::sendResponse(201, $response);
+    }
+
+
+    private function encryptPassword($password) {
+      return password_hash($password, PASSWORD_BCRYPT, options: ['cost' => 10]);
     }
 }

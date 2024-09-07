@@ -44,6 +44,10 @@ class APIController {
     public function login($data){
         $this->authController->authenticate($data);
     }
+
+    public function createuser($data){
+        $this->authController->create($data);
+    }
     #endregion
 
 

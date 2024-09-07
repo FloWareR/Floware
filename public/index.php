@@ -25,11 +25,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 // Load routes
 $router = new Router();
-$router->addRoute('POST', 'api', 'APIController', 'login', null);               //API
-$router->addRoute('GET', 'api', 'APIController', 'getproduct', 'staff');        //API
-$router->addRoute('POST', 'api', 'APIController', 'addproduct', 'admin');       //API
-$router->addRoute('PATCH', 'api', 'APIController', 'updateproduct','admin');    //API
-$router->addRoute('DELETE', 'api', 'APIController', 'deleteproduct','admin');   //API
+
+
+#region Products
+  $router->addRoute('GET', 'api', 'APIController', 'getproduct', 'staff');        
+  $router->addRoute('POST', 'api', 'APIController', 'addproduct', 'admin');       
+  $router->addRoute('PATCH', 'api', 'APIController', 'updateproduct','admin');   
+  $router->addRoute('DELETE', 'api', 'APIController', 'deleteproduct','admin');  
+#endregion
+
+#region Users
+  $router->addRoute('POST', 'api', 'APIController', 'login', null);        
+  $router->addRoute('POST', 'api', 'APIController', 'createuser', 'admin');       
+#endregion
 
 $router->addRoute('GET', 'views', 'ViewsController', 'index', null);            //Views
 

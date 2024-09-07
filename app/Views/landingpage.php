@@ -136,19 +136,15 @@
     </header>
     <nav>
         <ul>
-            <li><a href="#introduction">Introduction</a></li>
             <li><a href="#authentication">Authentication</a></li>
-            <li><a href="#endpoints">Endpoints</a></li>
+            <li><a href="#users">Users</a></li>
+            <li><a href="#products">Products</a></li>
         </ul>
     </nav>
     <main>
-        <section id="introduction">
-
-            <h2>Introduction</h2>
-            <p>Welcome to our API documentation. This API will allow you to access our inventory management system, 
+        <h2>Introduction</h2>
+        <p>Welcome to our API documentation. This API will allow you to access our inventory management system, 
                 feel free to contact us if you need assistance!</p>
-
-        </section>
         <br>
         <section id="authentication">
 
@@ -158,10 +154,10 @@
              </p>
             <pre><code>token: Bearer {YOUR_API_KEY} </code></pre><br>
             <p></p>
-
         </section>
+
         <br>
-        <section id="endpoints">
+        <section id="users">
 
             <h2>Endpoints</h2>
             <div class="endpoint">
@@ -188,6 +184,33 @@
         JKV1QiLCJhbGciOiJIUzI1NiJ9eyJ0eXAiOiJKV1QiLCJhbGciOiJNiJ9"</span>,
 
 }</code></pre>
+                    </div>
+                    <div class="endpoint">
+                        <h3><span class="method post">POST</span> floware.studio/api/createuser</h3>
+                        <p>Create a new user</p>
+                        <h4>JSON Body:</h4>
+                <ul>
+                    <li><code>username</code> (required)</li>
+                    <li><code>password</code> (required)</li>
+                    <li><code>email</code> (required)</li>
+                    <li><code>role (staff, manager, admin) </code> (required)</li>
+                </ul>
+                <pre><code>
+{
+        <span class="key">"username"</span>: <span class="string">"TestUser"</span>,
+        <span class="key">"password"</span>: <span class="string">"TestPassword"</span>
+        <span class="key">"email"</span>: <span class="string">"test@email.com"</span>
+        <span class="key">"role"</span>: <span class="string">"staff"</span>
+
+}</code></pre><br>
+                        <h4>Response:</h4>
+                        <pre><code>{
+        <span class="key">"message"</span>: <span class="string">"User created"</span>
+        <span class="key">"id"</span>: <span class="number">42</span>,
+
+}</code></pre>
+</section>
+<section id="products">
                     </div>
                     <div class="endpoint">
                         <h3><span class="method get">GET</span> floware.studio/api/getproduct</h3>
