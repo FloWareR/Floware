@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Floware.studio API</title>
+    <title>Inventory API</title>
     <style>
         :root {
             --primary-color: #3498db;
@@ -132,7 +132,7 @@
 </head>
 <body>
     <header>
-        <h1>Floware.studio API</h1>
+        <h1>Floware Inventory API</h1>
     </header>
     <nav>
         <ul>
