@@ -2,6 +2,7 @@
 
 namespace App\Middleware;
 
+use App\Controllers\Helper;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
@@ -27,7 +28,8 @@ class JWTMiddleware {
             ];
             $userRole = $decoded->role ?? null;
             if($roleHierachy[$userRole] < $roleHierachy[$clearance]){
-              return false;
+              Helper::class::sendResponse(401, ['error' => 'Manager access required']);
+              exit;
             }
             return true;
         } catch (\Exception $e) {
