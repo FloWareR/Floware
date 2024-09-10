@@ -62,6 +62,18 @@ class APIController {
         }
         $this->customerController->get($data);
     }
+
+    public function addCustomer($data) {
+        $this->customerController->add($data);
+    }
+
+    public function updateCustomer($data) {
+        $this->customerController->update($data);
+    }
+
+    public function deleteCustomer($data) {
+        $this->customerController->delete($data);
+    }
     #endregion
 
 

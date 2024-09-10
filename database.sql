@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `Customers` (
   `first_name` VARCHAR(255),
   `last_name` VARCHAR(255),
   `email` VARCHAR(255),
-  `phone_number` INT(12),
+  `phone_number` VARCHAR(16),
   `address` VARCHAR(255),
   `type` ENUM('regular','wholesale','vip'),
   `company_name` VARCHAR(255),

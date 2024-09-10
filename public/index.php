@@ -41,7 +41,12 @@ $router = new Router();
 
 #region Clients
   $router->addRoute('GET', 'api', 'APIController', 'getcustomer', 'staff');
+  $router->addRoute('POST', 'api', 'APIController', 'addcustomer', 'manager');
+  $router->addRoute('PATCH', 'api', 'APIController', 'updatecustomer', 'manager');
+  $router->addRoute('DELETE', 'api', 'APIController', 'deletecustomer','manager');  
 #endregion
+
+
 $router->addRoute('GET', 'views', 'ViewsController', 'index', null);            //Views
 
 
