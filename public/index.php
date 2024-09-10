@@ -39,6 +39,9 @@ $router = new Router();
   $router->addRoute('POST', 'api', 'APIController', 'createuser', 'admin');       
 #endregion
 
+#region Clients
+  $router->addRoute('GET', 'api', 'APIController', 'getcustomer', 'staff');
+#endregion
 $router->addRoute('GET', 'views', 'ViewsController', 'index', null);            //Views
 
 

@@ -5,17 +5,20 @@ namespace App\Controllers;
 use App\Controllers\Helper;
 use App\Controllers\AuthController;
 use App\Controllers\ProductController;
+use App\Controllers\CustomerController;
 
 class APIController {
 
     private $authController;
     private $productController;
     private $jwtMiddleware;
+    private $customerController;
 
     #region Products
     public function __construct() {
         $this->authController = new AuthController();
         $this->productController = new productController();
+        $this->customerController = new CustomerController();
     }
 
     public function getProduct($data) {
@@ -45,12 +48,21 @@ class APIController {
         $this->authController->authenticate($data);
     }
 
-    public function createuser($data){
+    public function createUser($data){
         $this->authController->create($data);
     }
     #endregion
 
 
+    #region Clients
+    public function getCustomer($data) {
+        if(isset($_GET['id'])) {
+            $this->customerController->getById($data);
+            return;
+        }
+        $this->customerController->get($data);
+    }
+    #endregion
 
 
 
