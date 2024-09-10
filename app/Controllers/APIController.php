@@ -14,6 +14,7 @@ class APIController {
     private $jwtMiddleware;
     private $customerController;
 
+
     #region Products
     public function __construct() {
         $this->authController = new AuthController();
@@ -30,7 +31,8 @@ class APIController {
     }
 
     public function addProduct($data) { 
-        $this->productController->add($data);
+        $requiredData = ['name', 'price', 'description', 'quantity'];
+        $this->productController->add($data, $requiredData);
     }
 
     public function updateProduct($data) { 
@@ -54,17 +56,18 @@ class APIController {
     #endregion
 
 
-    #region Clients
+    #region Customers
     public function getCustomer($data) {
         if(isset($_GET['id'])) {
             $this->customerController->getById($data);
             return;
         }
-        $this->customerController->get($data);
+        $this->customerController->getAll($data);
     }
 
     public function addCustomer($data) {
-        $this->customerController->add($data);
+        $requiredData = ['first_name', 'last_name', 'email', 'phone_number', 'address', 'type', 'company_name', 'payment_method'];
+        $this->customerController->add($data, $requiredData);
     }
 
     public function updateCustomer($data) {
@@ -78,6 +81,17 @@ class APIController {
 
 
 
+
+
+
+
+
+
+
+
+
+
+    
     #region JWT
     public function verifyToken($clearance, $data) {
         if($this->jwtMiddleware->verifyToken($clearance, $data)) {
