@@ -6,22 +6,23 @@ use App\Database;
 use App\Controllers\Helper;
 
 
-class Order {
+class Order extends Model{
 
-    private $db;
-    private $table = 'orders';
+  public function __construct() {
+    parent::__construct('orders');
+  }
 
-    public function __construct() {
-        $this->db = (new Database())->getConnection();
-    }
+  public function getAll(){
+    return parent::readAll();
+  }
 
-    public function getSingleOrder($data){
-      $query = "SELECT * FROM {$this->table} WHERE id = :id";
-      $stmt = $this->db->prepare($query);
-      $stmt->bindValue(':id', $data['id'], Helper::getParamType($data['id']));
-      $stmt->execute();
-      return $stmt->fetch(\PDO::FETCH_ASSOC);
+  public function getById($params){
+    return parent::readById($params);
+  }
 
-    }
+  public function add($params){
+    return parent::create($params);
+  }
+
 }
 
