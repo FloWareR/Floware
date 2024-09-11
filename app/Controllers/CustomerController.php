@@ -2,14 +2,14 @@
 
 namespace App\Controllers;
 
-use App\Models\Product;
+use App\Models\Customer;
 
-class ProductController extends Controller{
+class CustomerController extends Controller{
 
     private $model;
 
     public function __construct() {
-        $this->model = new Product();
+        $this->model = new Customer();
         parent::__construct($this->model, 'products');
     }
 
@@ -32,6 +32,5 @@ class ProductController extends Controller{
     public function delete($data) {
         parent::delete($data);
     }
-
 
 }

@@ -7,6 +7,8 @@ DROP TABLE IF EXISTS `Suppliers`;
 DROP TABLE IF EXISTS `Products`;
 DROP TABLE IF EXISTS `Categories`;
 DROP TABLE IF EXISTS `Users`;
+DROP TABLE IF EXISTS `Customers`;
+
 
 -- Create Users table
 CREATE TABLE IF NOT EXISTS `Users` (
@@ -29,6 +31,21 @@ CREATE TABLE IF NOT EXISTS `Products` (
   `price` DECIMAL(10,2),
   `cost` DECIMAL(10,2),
   `quantity` INT,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Create Customers table
+CREATE TABLE IF NOT EXISTS `Customers` (
+  `id` INT PRIMARY KEY AUTO_INCREMENT,
+  `first_name` VARCHAR(255),
+  `last_name` VARCHAR(255),
+  `email` VARCHAR(255),
+  `phone_number` VARCHAR(16),
+  `address` VARCHAR(255),
+  `type` ENUM('regular','wholesale','vip'),
+  `company_name` VARCHAR(255),
+  `payment_method` ENUM('cash','credit_card','debit_card','paypal'),
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
