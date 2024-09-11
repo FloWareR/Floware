@@ -66,13 +66,15 @@ CREATE TABLE IF NOT EXISTS `Suppliers` (
 CREATE TABLE IF NOT EXISTS `Orders` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
   `user_id` INT,
+  `customer_id` INT,
   `total_amount` DECIMAL(10,2),
   `status` ENUM('pending','completed','canceled'),
   `order_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `delivery_date` TIMESTAMP NULL DEFAULT NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`)
+  FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`customer_id`) REFERENCES `Customers` (`id`) ON DELETE CASCADE
 );
 
 -- Create Order_Items table
@@ -83,8 +85,10 @@ CREATE TABLE IF NOT EXISTS `Order_Items` (
   `quantity` INT,
   `price` DECIMAL(10,2),
   `total` DECIMAL(10,2),
-  FOREIGN KEY (`order_id`) REFERENCES `Orders` (`id`),
-  FOREIGN KEY (`product_id`) REFERENCES `Products` (`id`)
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (`order_id`) REFERENCES `Orders` (`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`product_id`) REFERENCES `Products` (`id`) ON DELETE RESTRICT
 );
 
 -- Create Inventory_Transactions table
@@ -96,8 +100,8 @@ CREATE TABLE IF NOT EXISTS `Inventory_Transactions` (
   `transaction_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `user_id` INT,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (`product_id`) REFERENCES `Products` (`id`),
-  FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`)
+  FOREIGN KEY (`product_id`) REFERENCES `Products` (`id`) ON DELETE RESTRICT,
+  FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`) ON DELETE CASCADE
 );
 
 -- Create Categories table
@@ -114,6 +118,6 @@ CREATE TABLE IF NOT EXISTS `Product_Categories` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
   `product_id` INT,
   `category_id` INT,
-  FOREIGN KEY (`product_id`) REFERENCES `Products` (`id`),
-  FOREIGN KEY (`category_id`) REFERENCES `Categories` (`id`)
+  FOREIGN KEY (`product_id`) REFERENCES `Products` (`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`category_id`) REFERENCES `Categories` (`id`) ON DELETE CASCADE
 );

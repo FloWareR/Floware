@@ -6,6 +6,7 @@ use App\Controllers\Helper;
 use App\Controllers\AuthController;
 use App\Controllers\ProductController;
 use App\Controllers\CustomerController;
+use App\Controllers\OrderController;
 
 class APIController {
 
@@ -13,13 +14,15 @@ class APIController {
     private $productController;
     private $jwtMiddleware;
     private $customerController;
-
+    private $orderController;
 
     #region Products
     public function __construct() {
         $this->authController = new AuthController();
         $this->productController = new productController();
         $this->customerController = new CustomerController();
+        $this->orderController = new OrderController();
+
     }
 
     public function getProduct($data) {
@@ -79,7 +82,13 @@ class APIController {
     }
     #endregion
 
-
+    #region Orders
+ 
+    public function addOrder($data){
+        $requiredData = ['user_id','customer_id','total_amount', 'status', 'order_data'];
+        $this->orderController->add($data, $requiredData);
+    }
+    #endregion
 
 
 
