@@ -8,12 +8,24 @@ use App\Controllers\Helper;
 
 class Model {
 
-  private $db;
-  private $table;
+  protected $db;
+  protected $table;
 
   public function __construct($table) {
     $this->db = (new Database())->getConnection();
     $this->table = $table;
+  }  
+
+  public function beginTransaction() {
+    $this->db->beginTransaction();
+  }
+
+  public function commit() {
+    $this->db->commit();
+  }
+
+  public function rollback() {
+    $this->db->rollback();
   }
 
   public function readAll(){

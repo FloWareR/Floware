@@ -85,8 +85,28 @@ class APIController {
     #region Orders
  
     public function addOrder($data){
-        $requiredData = ['user_id','customer_id','total_amount', 'status', 'order_data'];
+        $requiredData = ['user_id','customer_id', 'status','total_amount'];
         $this->orderController->add($data, $requiredData);
+    }
+
+    public function getOrder($data){
+        echo "get order";
+    }
+
+    public function updateOrder($data){
+        echo "update order";
+    }
+
+    public function deleteOrder($data){
+        echo "delete order";
+    }
+
+    public function cancelOrder($data){
+        echo "cancel order";
+    }
+
+    public function getordercustomer($data){
+        echo "get order customer";
     }
     #endregion
 

@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `Orders` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
   `user_id` INT,
   `customer_id` INT,
-  `total_amount` DECIMAL(10,2),
+  `total_amount` DECIMAL(12,2),
   `status` ENUM('pending','completed','canceled'),
   `order_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `delivery_date` TIMESTAMP NULL DEFAULT NULL,
@@ -121,3 +121,37 @@ CREATE TABLE IF NOT EXISTS `Product_Categories` (
   FOREIGN KEY (`product_id`) REFERENCES `Products` (`id`) ON DELETE CASCADE,
   FOREIGN KEY (`category_id`) REFERENCES `Categories` (`id`) ON DELETE CASCADE
 );
+
+
+-- Users table indexing
+CREATE INDEX idx_username ON Users(username);
+CREATE INDEX idx_email ON Users(email);
+
+-- Products table indexing
+CREATE INDEX idx_product_name ON Products(name);
+CREATE INDEX idx_sku ON Products(sku);
+CREATE INDEX idx_barcode ON Products(barcode);
+
+-- Customers table indexing
+CREATE INDEX idx_customer_email ON Customers(email);
+CREATE INDEX idx_phone_number ON Customers(phone_number);
+CREATE INDEX idx_last_name ON Customers(last_name);
+
+-- Suppliers table indexing
+CREATE INDEX idx_supplier_name ON Suppliers(name);
+CREATE INDEX idx_supplier_email ON Suppliers(email);
+
+-- Orders table indexing (already exists)
+CREATE INDEX idx_user_id ON Orders(user_id);
+CREATE INDEX idx_customer_id ON Orders(customer_id);
+
+-- Order_Items table indexing
+CREATE INDEX idx_order_id ON Order_Items(order_id);
+CREATE INDEX idx_product_id ON Order_Items(product_id);
+
+-- Inventory_Transactions table indexing
+CREATE INDEX idx_product_id ON Inventory_Transactions(product_id);
+CREATE INDEX idx_transaction_type ON Inventory_Transactions(transaction_type);
+
+-- Categories table indexing
+CREATE INDEX idx_category_name ON Categories(name);
