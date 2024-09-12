@@ -7,7 +7,7 @@ namespace App\Models;
 class OrderItems extends Model{
 
   public function __construct() {
-    parent::__construct('order_items');
+    parent::__construct('Order_Items');
   }
 
   public function add($params){

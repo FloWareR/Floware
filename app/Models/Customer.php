@@ -9,7 +9,7 @@ use App\Controllers\Helper;
 class Customer extends Model{
     
     public function __construct() {
-     parent::__construct('customers');
+     parent::__construct('Customers');
     }
     
     public function getAll(){

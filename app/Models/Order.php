@@ -7,7 +7,7 @@ use App\Controllers\Helper;
 class Order extends Model{
 
   public function __construct() {
-    parent::__construct('orders');
+    parent::__construct('Orders');
   }
 
   public function getAll(){
