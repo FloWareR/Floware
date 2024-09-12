@@ -43,13 +43,13 @@ class Controller {
     }
 
     public function update($data) { 
-        if(!isset($_GET['id']) || !isset($data)) {
+        if(!isset($_GET['id'])) {
             Helper::sendResponse(400, ['error' => "$this->tableName not found or data missing"]);
             return;
         }
         $data['id'] = $_GET['id'];
         $response = $this->model->update($data);
-        Helper::sendResponse(200, $response);
+        return $response;
 
     }
 
@@ -59,7 +59,7 @@ class Controller {
             return;
         }
         $response = $this->model->delete($data);
-        Helper::sendResponse(200, $response);
+        return $response;
     }
 
 }

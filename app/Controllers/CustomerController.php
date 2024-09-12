@@ -10,27 +10,27 @@ class CustomerController extends Controller{
 
     public function __construct() {
         $this->model = new Customer();
-        parent::__construct($this->model, 'products');
+        return parent::__construct($this->model, 'products');
     }
 
     public function getAll($data) {
-        parent::getAll($data);
+        return parent::getAll($data);
     }
 
     public function getById($data) {
-        parent::getById($data);
+        return parent::getById($data);
     }
 
     public function add($data, $requiredData) {
-        parent::add($data, $requiredData);
+        return parent::add($data, $requiredData);
     }
 
     public function update($data) {
-        parent::update($data);
+        return parent::update($data);
     }
 
     public function delete($data) {
-        parent::delete($data);
+        return parent::delete($data);
     }
 
 }

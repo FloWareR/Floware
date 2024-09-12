@@ -59,6 +59,11 @@ class APIController {
 
     public function deleteProduct($data) { 
         $response = $this->productController->delete($data);
+        if(!$response) {
+            Helper::sendResponse(400, ['error' => 'Error deleting product']);
+            die();
+        }
+        Helper::sendResponse(200, $response);
     }
     #endregion
 
@@ -86,15 +91,30 @@ class APIController {
 
     public function addCustomer($data) {
         $requiredData = ['first_name', 'last_name', 'email', 'phone_number', 'address', 'type', 'company_name', 'payment_method'];
-        $this->customerController->add($data, $requiredData);
+        $response = $this->customerController->add($data, $requiredData);
+        if(!$response) {
+            Helper::sendResponse(400, ['error' => 'Error creating customer']);
+            die();
+        }
+        Helper::sendResponse(200, $response);
     }
 
     public function updateCustomer($data) {
         $response = $this->customerController->update($data);
+        if(!$response) {
+            Helper::sendResponse(400, ['error' => 'Error updating customer']);
+            die();
+        }
+        Helper::sendResponse(200, $response);
     }
 
     public function deleteCustomer($data) {
         $response = $this->customerController->delete($data);
+        if(!$response) {
+            Helper::sendResponse(400, ['error' => 'Error deleting customer']);
+            die();
+        }
+        Helper::sendResponse(200, $response);
     }
     #endregion
 
