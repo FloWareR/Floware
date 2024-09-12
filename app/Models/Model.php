@@ -87,9 +87,11 @@ class Model {
         foreach ($params as $key => $value) {
           if (strpos($value, 'quantity -') === false) {
               $stmt->bindValue(":{$key}", $value, Helper::getParamType($value));
+             
           }
-      }     
-        $stmt->execute();    
+        }     
+        // print_r($query);
+        $stmt->execute();  
         return ['message' => "$this->table updated"];
     } catch (\PDOException $e) {
         return ['message' => "Error updating $this->table" . $e->getMessage()];
