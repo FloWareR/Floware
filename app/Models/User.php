@@ -9,7 +9,7 @@ use Exception;
 class User {
 
     private $db;
-    private $table = 'users';
+    private $table = 'Users';
 
     public function __construct() {
         $this->db = (new Database())->getConnection();
