@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Models\Model;
 use App\Controllers\Helper;
 
 class Controller {
@@ -40,7 +39,7 @@ class Controller {
           }
 
         $response = $this->model->create($data);
-        Helper::sendResponse(201, $response);
+        return $response;
     }
 
     public function update($data) { 
@@ -50,7 +49,7 @@ class Controller {
         }
         $data['id'] = $_GET['id'];
         $response = $this->model->update($data);
-        echo json_encode($response);
+        Helper::sendResponse(200, $response);
 
     }
 

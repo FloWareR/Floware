@@ -30,5 +30,22 @@ class Product extends Model{
     public function delete($params){
         return parent::delete($params);
     }
+
+    public function readColumn($params){
+        try {
+            $queryParts = [];
+            foreach($params['read_column'] as $key){
+                $queryParts[] = "$key";
+            }
+            $query = "SELECT " . implode(', ', $queryParts) . " FROM {$this->table} WHERE id = :id";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':id', $params['product_id'], Helper::getParamType($params['product_id']));
+            $stmt->execute();
+            return $stmt->fetch(\PDO::FETCH_ASSOC);
+        } catch (\PDOException $e) {
+            return ['message' => "Error reading $this->table" . $e->getMessage()];
+        }
+    }
+
 }
 

@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use App\Database;
 use App\Controllers\Helper;
-
 
 class Order extends Model{
 
@@ -50,5 +48,7 @@ class Order extends Model{
       return null;
     }
   }
-}
 
+
+
+}

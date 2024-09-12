@@ -76,13 +76,19 @@ class Model {
     try {
         $queryParts = [];
         foreach($params as $key => $value){
+          if (strpos($value, 'quantity -') !== false) {
+            $queryParts[] = "$key = $value";
+          } else {
             $queryParts[] = "$key = :$key";
+        }
         }
         $query = "UPDATE {$this->table} SET " . implode(', ', $queryParts) . " WHERE id = :id";
         $stmt = $this->db->prepare($query);
         foreach ($params as $key => $value) {
-            $stmt->bindValue(":{$key}", $value, Helper::getParamType($value));
-        }       
+          if (strpos($value, 'quantity -') === false) {
+              $stmt->bindValue(":{$key}", $value, Helper::getParamType($value));
+          }
+      }     
         $stmt->execute();    
         return ['message' => "$this->table updated"];
     } catch (\PDOException $e) {

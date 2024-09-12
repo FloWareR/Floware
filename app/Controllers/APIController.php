@@ -7,6 +7,7 @@ use App\Controllers\AuthController;
 use App\Controllers\ProductController;
 use App\Controllers\CustomerController;
 use App\Controllers\OrderController;
+use App\Controllers\OrderItemsController;
 
 class APIController {
 
@@ -15,6 +16,8 @@ class APIController {
     private $jwtMiddleware;
     private $customerController;
     private $orderController;
+    private $orderItemsController;
+
 
     #region Products
     public function __construct() {
@@ -22,39 +25,51 @@ class APIController {
         $this->productController = new productController();
         $this->customerController = new CustomerController();
         $this->orderController = new OrderController();
+        $this->orderItemsController = new OrderItemsController();
+
 
     }
 
     public function getProduct($data) {
         if(isset($_GET['id'])) {
-            $this->productController->getById($data);
+            $response = $this->productController->getById($data);
             return;
         }
-       $this->productController->getAll($data);
+        $response = $this->productController->getAll($data);
     }
 
     public function addProduct($data) { 
         $requiredData = ['name', 'price', 'description', 'quantity'];
-        $this->productController->add($data, $requiredData);
+        $response = $this->productController->add($data, $requiredData);
+        if(!$response) {
+            Helper::sendResponse(400, ['error' => 'Error creating product']);
+            die();
+        }
+        Helper::sendResponse(200, $response);
     }
 
     public function updateProduct($data) { 
-        $this->productController->update($data);
+        $response =$this->productController->update($data);
+        if(!$response) {
+            Helper::sendResponse(400, ['error' => 'Error updating product']);
+            die();
+        }
+        Helper::sendResponse(200, $response);
     }
 
     public function deleteProduct($data) { 
-        $this->productController->delete($data);
+        $response = $this->productController->delete($data);
     }
     #endregion
 
 
     #region Users
     public function login($data){
-        $this->authController->authenticate($data);
+        $response = $this->authController->authenticate($data);
     }
 
     public function createUser($data){
-        $this->authController->create($data);
+        $response = $this->authController->create($data);
     }
     #endregion
 
@@ -62,10 +77,11 @@ class APIController {
     #region Customers
     public function getCustomer($data) {
         if(isset($_GET['id'])) {
-            $this->customerController->getById($data);
+            $response = $this->customerController->getById($data);
             return;
         }
-        $this->customerController->getAll($data);
+        $response = $this->customerController->getAll($data);
+        
     }
 
     public function addCustomer($data) {
@@ -74,19 +90,30 @@ class APIController {
     }
 
     public function updateCustomer($data) {
-        $this->customerController->update($data);
+        $response = $this->customerController->update($data);
     }
 
     public function deleteCustomer($data) {
-        $this->customerController->delete($data);
+        $response = $this->customerController->delete($data);
     }
     #endregion
 
     #region Orders
  
     public function addOrder($data){
+        
+        $data = $this->productController->getPrice($data);
         $requiredData = ['user_id','customer_id', 'status','total_amount'];
-        $this->orderController->add($data, $requiredData);
+        $data['order_id'] = $this->orderController->add($data, $requiredData);
+        $requiredData = ['order_id', 'product_id', 'quantity', 'price'];
+        $this->orderItemsController->add($data, $requiredData);
+        $response = $this->productController->updateStock($data['order_data']);
+        Helper::sendResponse(200, ['order_id' => $data['order_id']]);
+        if(!$response) {
+            Helper::sendResponse(400, ['error' => 'Error adding order items']);
+            die();
+        }
+        return;
     }
 
     public function getOrder($data){
