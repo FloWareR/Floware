@@ -31,5 +31,10 @@ class OrderItemsController extends Controller{
         return $response;
     }
 
+    public function readByOrderId($data) {
+        $response = $this->model->readByOrderId($data['id']);
+        return $response;
+    }
+
 
 } 
