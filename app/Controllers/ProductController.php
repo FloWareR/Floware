@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Product;
+use Exception;
 
 class ProductController extends Controller{
 
@@ -34,34 +35,43 @@ class ProductController extends Controller{
     }
 
     public function updateStock($data) {
-        $response = null;
-        foreach ($data as $product) {
-            $product['id'] = $product['product_id'];
-            $product['quantity'] = "quantity - {$product['quantity']}";
-            unset($product['product_id']);
-            unset($product['price']);           
-            $response = $this->model->update($product);
+        try {
+            $response = null;
+            foreach ($data as $product) {
+                $product['id'] = $product['product_id'];
+                $product['quantity'] = "quantity - {$product['quantity']}";
+                unset($product['product_id']);
+                unset($product['price']);           
+                $response = $this->model->update($product);
+            }
+            return $response;
+        } catch (\Exception $e) {
+            new \Exception($e->getMessage());
+            return null;
         }
-        
-        return $response;
     }
 
     public function getPrice($data) {
-        $total_amount = 0; 
-        foreach ($data['order_data'] as &$product) {
-            $product['read_column'] = ['price'];
-            $product_data = $this->model->readColumn($product);
-            if ($product_data) {
-                $product['price'] = $product_data['price'];
-                $total_amount += $product['price'] * $product['quantity'];
-                unset($product['read_column']);
-            } else {
-                return null;
+        try {
+            $total_amount = 0; 
+            foreach ($data['order_data'] as &$product) {
+                $product['read_column'] = ['price'];
+                $product_data = $this->model->readColumn($product);
+                if ($product_data) {
+                    $product['price'] = $product_data['price'];
+                    $total_amount += $product['price'] * $product['quantity'];
+                    unset($product['read_column']);
+                } else {
+                    throw new \Exception('Error getting product data');
+                }
             }
-        }
-
-        $data['total_amount'] = $total_amount;
     
-        return $data;
+            $data['total_amount'] = $total_amount;
+            return $data;
+            
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
     }
+    
 }

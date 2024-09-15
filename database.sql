@@ -30,10 +30,14 @@ CREATE TABLE IF NOT EXISTS `Products` (
   `barcode` VARCHAR(255),
   `price` DECIMAL(10,2),
   `cost` DECIMAL(10,2),
-  `quantity` INT,
+  `quantity` INT UNSIGNED,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+
+ALTER TABLE products
+ADD CONSTRAINT chk_quantity_non_negative CHECK (quantity >= 0);
+
 
 -- Create Customers table
 CREATE TABLE IF NOT EXISTS `Customers` (

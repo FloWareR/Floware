@@ -8,6 +8,11 @@ use App\Controllers\ProductController;
 use App\Controllers\CustomerController;
 use App\Controllers\OrderController;
 use App\Controllers\OrderItemsController;
+use App\TransactionManager;
+
+use App\Models\Model;
+
+use Exception;
 
 class APIController {
 
@@ -17,6 +22,7 @@ class APIController {
     private $customerController;
     private $orderController;
     private $orderItemsController;
+    private $model;
 
 
     #region Products
@@ -26,7 +32,7 @@ class APIController {
         $this->customerController = new CustomerController();
         $this->orderController = new OrderController();
         $this->orderItemsController = new OrderItemsController();
-
+        $this->model = new Model("default");
 
     }
 
@@ -120,24 +126,33 @@ class APIController {
 
     #region Orders
  
-    public function addOrder($data){
-        
-        $data = $this->productController->getPrice($data);
-        $requiredData = ['user_id','customer_id', 'status','total_amount'];
-        $data['order_id'] = $this->orderController->add($data, $requiredData);
-        $requiredData = ['order_id', 'product_id', 'quantity', 'price'];
-        $this->orderItemsController->add($data, $requiredData);
-        $response = $this->productController->updateStock($data['order_data']);
-        Helper::sendResponse(200, ['order_id' => $data['order_id']]);
-        if(!$response) {
-            Helper::sendResponse(400, ['error' => 'Error adding order items']);
-            die();
+    public function addOrder($data) {
+        try {
+            $transactionManager = TransactionManager::getInstance();
+            $transactionManager->beginTransaction();
+            $data = $this->productController->getPrice($data);
+            $requiredData = ['user_id','customer_id', 'status','total_amount'];
+            $data['order_id'] = $this->orderController->add($data, $requiredData);
+            $requiredData = ['order_id', 'product_id', 'quantity', 'price'];
+            $this->orderItemsController->add($data, $requiredData);
+            $response = $this->productController->updateStock($data['order_data']);
+            if(!$response) {
+                throw new \Exception('Error updating stock');
+            }
+            $transactionManager->commit();
+            Helper::sendResponse(200, ['order_id' => $data['order_id']]);
+        } catch (\Exception $e) {
+            $transactionManager->rollBack();
+            Helper::sendResponse(500, ['error' => $e->getMessage()]);
         }
-        return;
     }
-
+    
     public function getOrder($data){
-        echo "get order";
+        if(isset($_GET['id'])) {
+            $response = $this->orderController->getById($data);
+            $response['products'] = $this->orderItemsController->readByOrderId($data);
+            Helper::sendResponse(200, $response);
+        }
     }
 
     public function updateOrder($data){
@@ -152,12 +167,10 @@ class APIController {
         echo "cancel order";
     }
 
-    public function getordercustomer($data){
+    public function getcustomerorders($data){
         echo "get order customer";
     }
     #endregion
-
-
 
 
 

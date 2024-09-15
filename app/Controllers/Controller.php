@@ -20,7 +20,7 @@ class Controller {
             Helper::sendResponse(404, ['error' => "$this->tableName not found"]);
             return;
         }
-        Helper::sendResponse(200, $response);
+       return $response;
 
     }
 

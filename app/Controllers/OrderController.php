@@ -26,7 +26,7 @@ class OrderController extends Controller{
     }
 
     public function getById($data) {
-        parent::getById($data);
+       return parent::getById($data);
     }
 
     public function add($data, $requiredData) {
