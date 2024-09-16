@@ -39,9 +39,10 @@ class APIController {
     public function getProduct($data) {
         if(isset($_GET['id'])) {
             $response = $this->productController->getById($data);
-            return;
+            Helper::sendResponse(200, $response);
         }
         $response = $this->productController->getAll($data);
+        Helper::sendResponse(200, $response);
     }
 
     public function addProduct($data) { 
@@ -89,9 +90,10 @@ class APIController {
     public function getCustomer($data) {
         if(isset($_GET['id'])) {
             $response = $this->customerController->getById($data);
-            return;
+            Helper::sendResponse(200, $response);
         }
         $response = $this->customerController->getAll($data);
+        Helper::sendResponse(200, $response);
         
     }
 
@@ -153,6 +155,8 @@ class APIController {
             $response['products'] = $this->orderItemsController->readByOrderId($data);
             Helper::sendResponse(200, $response);
         }
+        $response = $this->orderController->getAll($data);
+        Helper::sendResponse(200, $response);
     }
 
     public function updateOrder($data){

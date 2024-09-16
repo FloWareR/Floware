@@ -22,7 +22,7 @@ class OrderController extends Controller{
     }
 
     public function getAll($data) {
-        parent::getAll($data);
+        return parent::getAll($data);
     }
 
     public function getById($data) {

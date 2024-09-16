@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `Products` (
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-ALTER TABLE products
+ALTER TABLE Products
 ADD CONSTRAINT chk_quantity_non_negative CHECK (quantity >= 0);
 
 

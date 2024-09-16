@@ -26,8 +26,7 @@ class Controller {
 
     public function getAll($data) {
         $response = $this->model->readAll();
-        Helper::sendResponse(200, $response);
-        return;
+        return $response;
     }
 
     public function add($data, $requiredData) { 
