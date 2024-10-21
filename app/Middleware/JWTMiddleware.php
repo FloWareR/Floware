@@ -31,6 +31,11 @@ class JWTMiddleware {
               Helper::class::sendResponse(401, ['error' => 'Manager access required']);
               exit;
             }
+            $_SESSION['user'] = [
+              'id' => $decoded->id,
+              'username' => $decoded->sub,
+              'role' => $userRole
+          ];
             return true;
         } catch (\Exception $e) {
             return false;

@@ -22,7 +22,6 @@ class APIController {
     private $customerController;
     private $orderController;
     private $orderItemsController;
-    private $model;
 
 
     #region Products
@@ -32,8 +31,6 @@ class APIController {
         $this->customerController = new CustomerController();
         $this->orderController = new OrderController();
         $this->orderItemsController = new OrderItemsController();
-        $this->model = new Model("default");
-
     }
 
     public function getProduct($data) {
@@ -78,10 +75,17 @@ class APIController {
     #region Users
     public function login($data){
         $response = $this->authController->authenticate($data);
+        Helper::sendResponse(200, $response);
     }
 
     public function createUser($data){
         $response = $this->authController->create($data);
+        Helper::sendResponse(200, $response);
+    }
+
+    public function getUser($data){
+        $response = $this->authController->getById($data);
+        Helper::sendResponse(200, $response);   
     }
     #endregion
 

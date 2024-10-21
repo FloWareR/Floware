@@ -36,7 +36,8 @@ $router = new Router();
 
 #region Users
   $router->addRoute('POST', 'api', 'APIController', 'login', null);        
-  $router->addRoute('POST', 'api', 'APIController', 'createuser', 'admin');       
+  $router->addRoute('POST', 'api', 'APIController', 'createuser', 'admin');     
+  $router->addRoute('GET', 'api', 'APIController', 'getuser', 'staff');       
 #endregion
 
 #region Clients
@@ -54,7 +55,7 @@ $router = new Router();
   $router->addRoute('DELETE', 'api', 'APIController', 'deleteorder', 'staff');
 #endregion
 
-$router->addRoute('GET', 'views', 'ViewsController', 'index', null);            //Views
+$router->addRoute('GET', 'views', 'ViewsController', 'index', null);              //Views
 
 
 $router->enroute($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);

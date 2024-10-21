@@ -21,18 +21,16 @@ class AuthController {
     public function authenticate($data) {
       $user = $this->userModel->get($data);
       if(!$user) {
-          Helper::sendResponse(404, ['error' => 'User not found']);
-          return;
+          return ["error"];
       }
       if(password_verify($data['password'], $user['password'])) {
         $jwtoken = $this->jwtMiddleware->generateToken($user['username'], $user['role'], $user['id']);
-        Helper::sendResponse(200, ['message' => 'User authenticated', 'token' => "Bearer ". $jwtoken]);
-        return;
+        
+        return ['message' => 'User authenticated', 'token' => "Bearer ". $jwtoken];
       } else {
-        Helper::sendResponse(401, ['error' => 'Password incorrect']);
-        return;
+
+        return ['error' => 'Password incorrect'];
       }
-      return $user;
     }
 
     public function create($data){
@@ -51,7 +49,42 @@ class AuthController {
     }
 
 
+    public function getById($data){
+      $data = $_SESSION['user'];
+      $response = $this->userModel->readById($data['id']);
+      $response['image'] = $this->getImage($response); 
+      return $response;
+    }
+
+    
+
+
+
+
+    #region Helper functions  
+
     private function encryptPassword($password) {
       return password_hash($password, PASSWORD_BCRYPT, options: ['cost' => 10]);
     }
-}
+
+
+    private function getImage($data) {
+      $projectRoot = dirname($_SERVER['SCRIPT_FILENAME']);
+      $imageDir = $projectRoot . '/assets/images/' . $data['profile_picture'];
+      $default = $projectRoot . '/assets/images/default.jpg';
+  
+      if (file_exists($imageDir)) {
+          $imageData = file_get_contents($imageDir);
+          $mimeType = mime_content_type($imageDir);
+          $base64Image = 'data:' . $mimeType . ';base64,' . base64_encode($imageData); 
+      } else {
+          $imageData = file_get_contents($default);
+          $mimeType = mime_content_type($default); 
+          $base64Image = 'data:' . $mimeType . ';base64,' . base64_encode($imageData); 
+      }
+  
+      return $base64Image;
+  }
+  
+    #endregion
+  }
