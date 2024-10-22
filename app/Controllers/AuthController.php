@@ -51,7 +51,7 @@ class AuthController {
 
     public function getById($data){
       $data = $_SESSION['user'];
-      $response = $this->userModel->readById($data);
+      $response = $this->userModel->readById($data['id']);
       $response['image'] = $this->getImage($response); 
       return $response;
     }
