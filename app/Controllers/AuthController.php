@@ -67,6 +67,9 @@ class AuthController {
       }
       unset($data['image']);
       $data['profile_picture'] = $imageSaved;
+      if(isset($data['password'])) {
+        $data['password'] = $this->encryptPassword($data['password']);
+      }
       $response = $this->userModel->update($data);
       if(isset($response['error'])) {
         return $response['error'];
