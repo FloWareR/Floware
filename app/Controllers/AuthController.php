@@ -34,18 +34,21 @@ class AuthController {
     }
 
     public function create($data){
+      $passwordNoHash = $data['password'];
       $userExists = $this->userModel->readById($data);
       if($userExists) {
         Helper::sendResponse(409, ['error' => 'User already exists']);
         return;
       }
       $data['password'] = $this->encryptPassword($data['password']);
+      $data['role'] = 'staff';
       $response = $this->userModel->create($data);
       if(isset($response['error'])) {
         Helper::sendResponse(500, $response);
         return;
-      }
-      Helper::sendResponse(201, $response);
+      }      
+      $data['password'] = $passwordNoHash;
+      return $this->authenticate($data);
     }
 
 

@@ -36,7 +36,7 @@ $router = new Router();
 
 #region Users
   $router->addRoute('POST', 'api', 'APIController', 'login', null);        
-  $router->addRoute('POST', 'api', 'APIController', 'createuser', 'admin');     
+  $router->addRoute('POST', 'api', 'APIController', 'createuser', null);     
   $router->addRoute('GET', 'api', 'APIController', 'getuser', 'staff');       
   $router->addRoute('PATCH', 'api', 'APIController', 'updateuser', 'staff');       
 

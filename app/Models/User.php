@@ -26,6 +26,9 @@ class User extends Model {
 
     public function readById($params)
     {
+      if(!isset($params['id'])){
+        return false;
+      }
       return parent::readById($params);
     }
 
