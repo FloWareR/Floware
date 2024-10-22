@@ -59,14 +59,15 @@ class AuthController {
     
     public function update($data){
       $data['id'] = $_SESSION['user']['id'];
+
       if(isset($data['image']) && isset($data['profile_picture'])) {
         $imageSaved = Helper::saveImage($data['image'], $data['profile_picture']);
+        $data['profile_picture'] = $imageSaved;
+        unset($data['image']);
         if (!isset($imageSaved)) {
           return ['error' => 'Error saving image'];
         }
       }
-      unset($data['image']);
-      $data['profile_picture'] = $imageSaved;
       if(isset($data['password'])) {
         $data['password'] = $this->encryptPassword($data['password']);
       }
