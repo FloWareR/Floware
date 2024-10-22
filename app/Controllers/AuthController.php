@@ -40,7 +40,7 @@ class AuthController {
       $passwordNoHash = $data['password'];
       $oneTimeCode = $this->OneTimeCodeController->get($data);
       if(!$oneTimeCode || $oneTimeCode['used'] == 1) {
-        return ['error' => 'Invalid one time code'];
+        return ['error' => 'Invalid one time code', 'responseCode' => 400];
       }
 
       $userExists = $this->userModel->read($data);
