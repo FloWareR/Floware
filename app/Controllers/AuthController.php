@@ -35,10 +35,9 @@ class AuthController {
 
     public function create($data){
       $passwordNoHash = $data['password'];
-      $userExists = $this->userModel->readById($data);
+      $userExists = $this->userModel->read($data);
       if($userExists) {
-        Helper::sendResponse(409, ['error' => 'User already exists']);
-        return;
+        return ['error' => 'User already exists'];
       }
       $data['password'] = $this->encryptPassword($data['password']);
       $data['role'] = 'staff';
