@@ -87,6 +87,11 @@ class APIController {
         $response = $this->authController->getById($data);
         Helper::sendResponse(200, $response);   
     }
+
+    public function updateUser($data){
+        $response = $this->authController->update($data);
+        Helper::sendResponse(200, $response);
+    }
     #endregion
 
 

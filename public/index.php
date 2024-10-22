@@ -38,6 +38,8 @@ $router = new Router();
   $router->addRoute('POST', 'api', 'APIController', 'login', null);        
   $router->addRoute('POST', 'api', 'APIController', 'createuser', 'admin');     
   $router->addRoute('GET', 'api', 'APIController', 'getuser', 'staff');       
+  $router->addRoute('PATCH', 'api', 'APIController', 'updateuser', 'staff');       
+
 #endregion
 
 #region Clients

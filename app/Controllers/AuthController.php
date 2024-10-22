@@ -19,7 +19,7 @@ class AuthController {
     }
 
     public function authenticate($data) {
-      $user = $this->userModel->get($data);
+      $user = $this->userModel->read($data);
       if(!$user) {
           return ["error"];
       }
@@ -34,7 +34,7 @@ class AuthController {
     }
 
     public function create($data){
-      $userExists = $this->userModel->get($data);
+      $userExists = $this->userModel->readById($data);
       if($userExists) {
         Helper::sendResponse(409, ['error' => 'User already exists']);
         return;
@@ -51,13 +51,28 @@ class AuthController {
 
     public function getById($data){
       $data = $_SESSION['user'];
-      $response = $this->userModel->readById($data['id']);
+      $response = $this->userModel->readById($data);
       $response['image'] = $this->getImage($response); 
       return $response;
     }
 
     
-
+    public function update($data){
+      $data['id'] = $_SESSION['user']['id'];
+      if(isset($data['image']) && isset($data['profile_picture'])) {
+        $imageSaved = Helper::saveImage($data['image'], $data['profile_picture']);
+        if (!isset($imageSaved)) {
+          return ['error' => 'Error saving image'];
+        }
+      }
+      unset($data['image']);
+      $data['profile_picture'] = $imageSaved;
+      $response = $this->userModel->update($data);
+      if(isset($response['error'])) {
+        return $response['error'];
+      }
+      return $response;
+    }
 
 
 

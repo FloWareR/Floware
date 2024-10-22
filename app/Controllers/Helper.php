@@ -33,5 +33,26 @@ class Helper{
             return json_decode($inputData, true);        }
     }
 
-
+    public static function saveImage($image, $originalFilename) {
+        $projectRoot = dirname($_SERVER['SCRIPT_FILENAME']);
+        $imageDir = $projectRoot . '/assets/images/';
+        
+        if (!is_dir($imageDir)) {
+            mkdir($imageDir, 0755, true); 
+        }
+        
+        $uniqueId = uniqid('', true);
+        $extension = pathinfo($originalFilename, PATHINFO_EXTENSION); 
+        $uniqueFilename = pathinfo($originalFilename, PATHINFO_FILENAME) . '_' . $uniqueId . '.' . $extension; 
+        
+        $filePath = $imageDir . $uniqueFilename;
+        
+        $image_parts = explode(";base64,", $image);
+        $image_base64 = base64_decode($image_parts[1]);
+        
+        file_put_contents($filePath, $image_base64);
+        
+        return $uniqueFilename; 
+    }
+    
 }
