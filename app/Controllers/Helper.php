@@ -79,7 +79,7 @@ class Helper{
     public static function removeImage($filename) {
         $projectRoot = dirname($_SERVER['SCRIPT_FILENAME']);
         $imageDir = $projectRoot . '/assets/images/' . $filename;
-        if($filename === 'default.jpg') {
+        if($filename === 'default.jpg' || !file_exists($imageDir)) {
             return;
         }
         if (file_exists($imageDir)) {
