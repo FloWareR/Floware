@@ -66,6 +66,9 @@ class AuthController {
         $imageSaved = Helper::saveImage($data['image'], $data['profile_picture']);
         $data['profile_picture'] = $imageSaved;
         unset($data['image']);
+        $oldImage = $this->userModel->readById($data['id'])['profile_picture'];
+        Helper::removeImage($oldImage);
+
         if (!isset($imageSaved)) {
           return ['error' => 'Error saving image'];
         }
@@ -73,8 +76,6 @@ class AuthController {
       if(isset($data['password'])) {
         $data['password'] = Helper::encryptPassword($data['password']);
       }
-      $oldImage = $this->userModel->readById($data['id'])['profile_picture'];
-      Helper::removeImage($oldImage);
       $response = $this->userModel->update($data);
       if(isset($response['error'])) {
         return $response['error'];
