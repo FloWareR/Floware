@@ -79,6 +79,10 @@ class APIController {
     #region Users
     public function login($data){
         $response = $this->authController->authenticate($data);
+        if(isset($response['error'])) {
+            Helper::sendResponse(400, $response);
+            die();
+        }
         Helper::sendResponse(200, $response);
     }
 

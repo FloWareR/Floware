@@ -23,7 +23,7 @@ class AuthController {
     public function authenticate($data) {
       $user = $this->userModel->read($data);
       if(!$user) {
-          return ["error"];
+          return ['error' => "User does not exist"];
       }
       if(password_verify($data['password'], $user['password'])) {
         $jwtoken = $this->jwtMiddleware->generateToken($user['username'], $user['role'], $user['id']);
