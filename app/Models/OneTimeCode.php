@@ -19,7 +19,7 @@ class OneTimeCode extends Model{
         $stmt->execute();
         return $stmt->fetch(\PDO::FETCH_ASSOC);
       } catch (\PDOException $e) {
-          throw new Exception("Error reading {$this->table}: " . $e->getMessage());
+          return false;
       }
     }
     
