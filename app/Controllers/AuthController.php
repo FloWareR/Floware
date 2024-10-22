@@ -88,6 +88,9 @@ class AuthController {
 
 
     private function getImage($data) {
+      if(!isset($data['profile_picture'])) {
+        $data['profile_picture'] = 'default.jpg';
+      }
       $projectRoot = dirname($_SERVER['SCRIPT_FILENAME']);
       $imageDir = $projectRoot . '/assets/images/' . $data['profile_picture'];
       $default = $projectRoot . '/assets/images/default.jpg';
