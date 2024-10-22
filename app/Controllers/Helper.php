@@ -55,4 +55,41 @@ class Helper{
         return $uniqueFilename; 
     }
     
+    public static function getImage($data) {
+        if(!isset($data['profile_picture'])) {
+          $data['profile_picture'] = 'default.jpg';
+        }
+        $projectRoot = dirname($_SERVER['SCRIPT_FILENAME']);
+        $imageDir = $projectRoot . '/assets/images/' . $data['profile_picture'];
+        $default = $projectRoot . '/assets/images/default.jpg';
+    
+        if (file_exists($imageDir)) {
+            $imageData = file_get_contents($imageDir);
+            $mimeType = mime_content_type($imageDir);
+            $base64Image = 'data:' . $mimeType . ';base64,' . base64_encode($imageData); 
+        } else {
+            $imageData = file_get_contents($default);
+            $mimeType = mime_content_type($default); 
+            $base64Image = 'data:' . $mimeType . ';base64,' . base64_encode($imageData); 
+        }
+    
+        return $base64Image;
+    }
+
+    public static function removeImage($filename) {
+        $projectRoot = dirname($_SERVER['SCRIPT_FILENAME']);
+        $imageDir = $projectRoot . '/assets/images/' . $filename;
+        if($filename === 'default.jpg') {
+            return;
+        }
+        if (file_exists($imageDir)) {
+            unlink($imageDir);
+        }   
+    }
+
+    
+    public static function encryptPassword($password) {
+        return password_hash($password, PASSWORD_BCRYPT, options: ['cost' => 10]);
+      }
+  
 }

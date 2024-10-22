@@ -57,6 +57,7 @@ $router = new Router();
   $router->addRoute('DELETE', 'api', 'APIController', 'deleteorder', 'staff');
 #endregion
 
+
 $router->addRoute('GET', 'views', 'ViewsController', 'index', null);              //Views
 
 

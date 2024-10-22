@@ -39,7 +39,7 @@ class AuthController {
       if($userExists) {
         return ['error' => 'User already exists'];
       }
-      $data['password'] = $this->encryptPassword($data['password']);
+      $data['password'] = Helper::encryptPassword($data['password']);
       $data['role'] = 'staff';
       $response = $this->userModel->create($data);
       if(isset($response['error'])) {
@@ -54,7 +54,7 @@ class AuthController {
     public function getById($data){
       $data = $_SESSION['user'];
       $response = $this->userModel->readById($data['id']);
-      $response['image'] = $this->getImage($response); 
+      $response['image'] = Helper::getImage($response); 
       return $response;
     }
 
@@ -71,8 +71,10 @@ class AuthController {
         }
       }
       if(isset($data['password'])) {
-        $data['password'] = $this->encryptPassword($data['password']);
+        $data['password'] = Helper::encryptPassword($data['password']);
       }
+      $oldImage = $this->userModel->readById($data['id'])['profile_picture'];
+      Helper::removeImage($oldImage);
       $response = $this->userModel->update($data);
       if(isset($response['error'])) {
         return $response['error'];
@@ -84,31 +86,7 @@ class AuthController {
 
     #region Helper functions  
 
-    private function encryptPassword($password) {
-      return password_hash($password, PASSWORD_BCRYPT, options: ['cost' => 10]);
-    }
 
-
-    private function getImage($data) {
-      if(!isset($data['profile_picture'])) {
-        $data['profile_picture'] = 'default.jpg';
-      }
-      $projectRoot = dirname($_SERVER['SCRIPT_FILENAME']);
-      $imageDir = $projectRoot . '/assets/images/' . $data['profile_picture'];
-      $default = $projectRoot . '/assets/images/default.jpg';
-  
-      if (file_exists($imageDir)) {
-          $imageData = file_get_contents($imageDir);
-          $mimeType = mime_content_type($imageDir);
-          $base64Image = 'data:' . $mimeType . ';base64,' . base64_encode($imageData); 
-      } else {
-          $imageData = file_get_contents($default);
-          $mimeType = mime_content_type($default); 
-          $base64Image = 'data:' . $mimeType . ';base64,' . base64_encode($imageData); 
-      }
-  
-      return $base64Image;
-  }
   
     #endregion
   }
