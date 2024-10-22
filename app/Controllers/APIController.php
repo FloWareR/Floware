@@ -84,7 +84,11 @@ class APIController {
 
     public function createUser($data){
         $response = $this->authController->create($data);
-        Helper::sendResponse($response['responseCode'], $response);
+        if(isset($response['error'])) {
+            Helper::sendResponse(400, $response);
+            die();
+        }
+        Helper::sendResponse(200, $response);
     }
 
     public function getUser($data){
