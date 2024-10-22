@@ -7,16 +7,16 @@ use App\Middleware\JWTMiddleware;
 
 class Helper{
 
-  public static function getParamType($value) {
-    if (is_int($value)) {
-        return \PDO::PARAM_INT;
-    } elseif (is_bool($value)) {
-        return \PDO::PARAM_BOOL;
-    } elseif (is_null($value)) {
-        return \PDO::PARAM_NULL;
-    } else {
-        return \PDO::PARAM_STR;
-    }
+    public static function getParamType($value) {
+        if (is_int($value)) {
+            return \PDO::PARAM_INT;
+        } elseif (is_bool($value)) {
+            return \PDO::PARAM_BOOL;
+        } elseif (is_null($value)) {
+            return \PDO::PARAM_NULL;
+        } else {
+            return \PDO::PARAM_STR;
+        }
     }
 
     public static function sendResponse($statusCode, $data) {
@@ -88,9 +88,11 @@ class Helper{
         }   
     }
 
-    
     public static function encryptPassword($password) {
         return password_hash($password, PASSWORD_BCRYPT, options: ['cost' => 10]);
-      }
-  
+    }
+
+    public static function generateSignupCode($lenght){
+        return bin2hex(random_bytes($lenght));
+    }
 }

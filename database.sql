@@ -127,6 +127,13 @@ CREATE TABLE IF NOT EXISTS `Product_Categories` (
   FOREIGN KEY (`category_id`) REFERENCES `Categories` (`id`) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS One_Time_Codes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    code VARCHAR(10) NOT NULL,
+    expires_at DATETIME NOT NULL DEFAULT (CURRENT_TIMESTAMP + INTERVAL 24 HOUR),
+    used BOOLEAN DEFAULT FALSE
+);
+
 
 -- Users table indexing
 CREATE INDEX idx_username ON Users(username);

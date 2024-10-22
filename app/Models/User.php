@@ -30,6 +30,7 @@ class User extends Model {
     }
 
     public function create($data){
+      unset($data['code']);
       return parent::create($data);
     }
 

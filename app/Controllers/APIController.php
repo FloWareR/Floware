@@ -8,6 +8,7 @@ use App\Controllers\ProductController;
 use App\Controllers\CustomerController;
 use App\Controllers\OrderController;
 use App\Controllers\OrderItemsController;
+use App\Controllers\OneTimeCodeController;
 use App\TransactionManager;
 
 use App\Models\Model;
@@ -22,6 +23,7 @@ class APIController {
     private $customerController;
     private $orderController;
     private $orderItemsController;
+    private $onetimecodeController;
 
 
     #region Products
@@ -31,6 +33,8 @@ class APIController {
         $this->customerController = new CustomerController();
         $this->orderController = new OrderController();
         $this->orderItemsController = new OrderItemsController();
+        $this->onetimecodeController = new OneTimeCodeController();
+
     }
 
     public function getProduct($data) {
@@ -186,7 +190,13 @@ class APIController {
     #endregion
 
 
+    #region OneTimeCode
 
+    public function createsignupcode($data) {
+        $response = $this->onetimecodeController->create($data);
+        Helper::sendResponse(200, $response);
+    }
+    #endregion
 
 
 

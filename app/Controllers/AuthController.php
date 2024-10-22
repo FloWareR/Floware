@@ -5,17 +5,19 @@ namespace App\Controllers;
 use App\Models\User;
 use App\Controllers\Helper;
 use App\Middleware\JWTMiddleware;
+use App\Controllers\OneTimeCodeController;
 
 
 class AuthController {
 
     private $userModel; 
+    private $OneTimeCodeController;
     private $jwtMiddleware;
 
     public function __construct() {
         $this->userModel = new User();
         $this->jwtMiddleware = new JWTMiddleware();
-
+        $this->OneTimeCodeController = new OneTimeCodeController();
     }
 
     public function authenticate($data) {
@@ -34,11 +36,18 @@ class AuthController {
     }
 
     public function create($data){
+
       $passwordNoHash = $data['password'];
+      $oneTimeCode = $this->OneTimeCodeController->get($data);
+      if(!$oneTimeCode || $oneTimeCode['used'] == 1) {
+        return ['error' => 'Invalid one time code'];
+      }
+
       $userExists = $this->userModel->read($data);
       if($userExists) {
         return ['error' => 'User already exists'];
       }
+
       $data['password'] = Helper::encryptPassword($data['password']);
       $data['role'] = 'staff';
       $response = $this->userModel->create($data);
@@ -46,10 +55,10 @@ class AuthController {
         Helper::sendResponse(500, $response);
         return;
       }      
+      $this->OneTimeCodeController->update(['code' => $data['code'], 'used' => 1, 'id' => $oneTimeCode['id']]);
       $data['password'] = $passwordNoHash;
       return $this->authenticate($data);
     }
-
 
     public function getById($data){
       $data = $_SESSION['user'];
@@ -58,7 +67,6 @@ class AuthController {
       return $response;
     }
 
-    
     public function update($data){
       $data['id'] = $_SESSION['user']['id'];
 
@@ -83,11 +91,4 @@ class AuthController {
       return $response;
     }
 
-
-
-    #region Helper functions  
-
-
-  
-    #endregion
   }

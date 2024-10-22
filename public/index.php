@@ -58,6 +58,10 @@ $router = new Router();
 #endregion
 
 
+#region Helpers
+  $router->addRoute('GET', 'api', 'APIController', 'createsignupcode', 'admin');
+#endregion
+
 $router->addRoute('GET', 'views', 'ViewsController', 'index', null);              //Views
 
 
