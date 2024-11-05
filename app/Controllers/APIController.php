@@ -206,7 +206,16 @@ class APIController {
     }
     #endregion
 
-
+    #region Payment
+    public function subscribe($data) {
+        $response = $this->authController->subscribe($data);
+        if(!$response) {
+            Helper::sendResponse(400, ['error' => 'Error updating subscription']);
+            die();
+        }
+        Helper::sendResponse(200, $response);
+    }
+    #endregion
 
 
 

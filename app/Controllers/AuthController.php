@@ -91,4 +91,12 @@ class AuthController {
       return $response;
     }
 
+    public function subscribe($data){
+      $data['id'] = $_SESSION['user']['id'];
+      $response = $this->userModel->subscribe($data);
+      if(isset($response['error'])) {
+        return $response['error'];
+      }
+      return $response;
+    }
   }

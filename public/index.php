@@ -9,6 +9,7 @@ header('Access-Control-Allow-Headers: Content-Type, token');
 
 require_once __DIR__.'/../vendor/autoload.php';
 
+use App\Controllers\APIController;
 use Dotenv\Dotenv;
 use App\Router; 
 
@@ -60,6 +61,7 @@ $router = new Router();
 
 #region Helpers
   $router->addRoute('GET', 'api', 'APIController', 'createsignupcode', 'admin');
+  $router->addRoute('POST', 'api', 'APIController', 'subscribe', 'staff');
 #endregion
 
 $router->addRoute('GET', 'views', 'ViewsController', 'index', null);              //Views

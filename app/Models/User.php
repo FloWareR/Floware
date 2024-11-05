@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Controllers\Helper;
+use \Exception;
 
 
 class User extends Model {
@@ -36,6 +37,20 @@ class User extends Model {
 
     public function update($data){
       return parent::update($data);
+    }
+
+    public function subscribe($params){
+      try {
+        $query = "UPDATE {$this->table} SET subscribed = :subscribed WHERE id = :id";
+        $stmt = $this->db->prepare($query);
+        foreach ($params as $key => $value) {
+                $stmt->bindValue(":{$key}", $value, Helper::getParamType($value));
+        }
+        $stmt->execute();
+        return ['message' => "{$this->table} updated"];
+    } catch (\PDOException $e) {
+        throw new Exception("Error updating {$this->table}: " . $e->getMessage());
+    }
     }
 }
 

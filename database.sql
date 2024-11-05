@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS `Users` (
   `email` VARCHAR(255),
   `role` ENUM('admin','manager','staff'),
   `profile_picture` VARCHAR(255), 
+  `subscribed` BOOLEAN DEFAULT FALSE,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
