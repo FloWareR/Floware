@@ -94,9 +94,14 @@ class AuthController {
     public function subscribe($data){
       $data['id'] = $_SESSION['user']['id'];
       $response = $this->userModel->subscribe($data);
+      $email = $this->userModel->readById($data['id']);
+      if(isset($email['error'])) {
+        return $response['error'];
+      }
       if(isset($response['error'])) {
         return $response['error'];
       }
+      $response = Helper::sendEmail($email['email'], 'Subscription', 'You have successfully subscribed to our newsletter, stay tuned for more updates!');
       return $response;
     }
   }

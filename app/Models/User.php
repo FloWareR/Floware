@@ -51,6 +51,6 @@ class User extends Model {
     } catch (\PDOException $e) {
         throw new Exception("Error updating {$this->table}: " . $e->getMessage());
     }
-    }
+   }
 }
 

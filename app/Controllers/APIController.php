@@ -213,6 +213,7 @@ class APIController {
             Helper::sendResponse(400, ['error' => 'Error updating subscription']);
             die();
         }
+        
         Helper::sendResponse(200, $response);
     }
     #endregion

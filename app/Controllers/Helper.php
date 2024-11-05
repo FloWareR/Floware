@@ -95,4 +95,11 @@ class Helper{
     public static function generateSignupCode($lenght){
         return bin2hex(random_bytes($lenght));
     }
+
+    public static function sendEmail($emailData, $nameData, $messageData) {
+        $projectRoot = dirname(dirname($_SERVER['SCRIPT_FILENAME']));
+        require $projectRoot . '/email/email.php';
+        return sendEmail($emailData, $nameData, $messageData);
+    }
+    
 }
