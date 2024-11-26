@@ -153,6 +153,7 @@ class APIController {
         try {
             $transactionManager = TransactionManager::getInstance();
             $transactionManager->beginTransaction();
+            $data['user_id'] = $_SESSION['user']['id'];
             $data = $this->productController->getPrice($data);
             $requiredData = ['user_id','customer_id', 'status','total_amount'];
             $data['order_id'] = $this->orderController->add($data, $requiredData);

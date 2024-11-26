@@ -66,5 +66,4 @@ $router = new Router();
 
 $router->addRoute('GET', 'views', 'ViewsController', 'index', null);              //Views
 
-
 $router->enroute($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
