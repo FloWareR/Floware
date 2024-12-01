@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Controllers\Helper;
 use App\TransactionManager;
 use Exception;
+use PDO;
 
 class Model {
 
@@ -87,10 +88,25 @@ class Model {
 
     public function delete($params) {
         try {
+            $checkQuery = "SELECT COUNT(*) AS count FROM Order_Items WHERE product_id = :id";
+            $checkStmt = $this->db->prepare($checkQuery);
+            $checkStmt->bindParam(':id', $params['id'], Helper::getParamType($params['id']));
+            $checkStmt->execute();
+            $result = $checkStmt->fetch(PDO::FETCH_ASSOC);
+    
+            if ($result['count'] > 0) {
+                return [
+                    'message' => "Product already used in orders, cannot delete.",
+                    'id' => $params['id'],
+                    'status' => 'error'
+                ];
+            }
+    
             $query = "DELETE FROM {$this->table} WHERE id = :id LIMIT 1";
             $stmt = $this->db->prepare($query);
             $stmt->bindParam(':id', $params['id'], Helper::getParamType($params['id']));
             $stmt->execute();
+    
             if ($stmt->rowCount() > 0) {
                 return ['message' => "{$this->table} deleted successfully", 'id' => $params['id']];
             } else {
@@ -100,4 +116,5 @@ class Model {
             throw new Exception("Error deleting {$this->table}: " . $e->getMessage());
         }
     }
+    
 }

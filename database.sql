@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `Order_Items` (
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (`order_id`) REFERENCES `Orders` (`id`) ON DELETE CASCADE,
-  FOREIGN KEY (`product_id`) REFERENCES `Products` (`id`) ON DELETE RESTRICT
+  FOREIGN KEY (`product_id`) REFERENCES `Products` (`id`) ON DELETE CASCADE
 );
 
 -- Create Inventory_Transactions table
