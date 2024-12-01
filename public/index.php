@@ -62,6 +62,9 @@ $router = new Router();
 #region Helpers
   $router->addRoute('GET', 'api', 'APIController', 'createsignupcode', 'admin');
   $router->addRoute('POST', 'api', 'APIController', 'subscribe', 'staff');
+  $router->addRoute('POST', 'api', 'APIController', 'uploadpicture', 'staff');
+  $router->addRoute('GET', 'api', 'APIController', 'getgallery', 'staff');
+
 #endregion
 
 $router->addRoute('GET', 'views', 'ViewsController', 'index', null);              //Views

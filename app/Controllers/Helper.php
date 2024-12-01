@@ -76,6 +76,36 @@ class Helper{
         return $base64Image;
     }
 
+    public static function getGallery() {
+        $projectRoot = dirname($_SERVER['SCRIPT_FILENAME']);
+        $imageDir = $projectRoot . '/assets/images/';
+        
+        if (!is_dir($imageDir)) {
+            return [];
+        }
+        
+        $images = array_diff(scandir($imageDir), ['.', '..']);
+        
+        $imageGallery = [];
+    
+        foreach ($images as $imageName) {
+            $imagePath = $imageDir . $imageName;
+            
+            if (is_file($imagePath)) {
+                $imageData = file_get_contents($imagePath);
+                $mimeType = mime_content_type($imagePath);
+                $base64Image = 'data:' . $mimeType . ';base64,' . base64_encode($imageData);
+                
+                $imageGallery[] = [
+                    'image' => $base64Image,
+                    'name'  => $imageName
+                ];
+            }
+        }
+        
+        return $imageGallery;
+    }
+    
     public static function removeImage($filename) {
         $projectRoot = dirname($_SERVER['SCRIPT_FILENAME']);
         $imageDir = $projectRoot . '/assets/images/' . $filename;

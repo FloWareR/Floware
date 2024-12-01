@@ -198,6 +198,22 @@ class APIController {
     }
     #endregion
 
+    public function uploadpicture($data){
+        $response = Helper::saveImage($data['image'], $data['name']);
+
+        if(!$response) {
+            Helper::sendResponse(400, ['error' => 'Error saving image']);
+            die();
+        }
+
+        $response = ['message' => 'Image saved', 'image' => $response];
+        Helper::sendResponse(200, $response);
+    }
+
+    public function getgallery($data){
+        $response = Helper::getGallery();
+        Helper::sendResponse(200, $response);
+    }
 
     #region OneTimeCode
 
