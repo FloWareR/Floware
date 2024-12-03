@@ -193,8 +193,18 @@ class APIController {
         echo "cancel order";
     }
 
-    public function getcustomerorders($data){
-        echo "get order customer";
+    public function getorderitems($data){
+        if(!isset($data['id'])) {
+            Helper::sendResponse(400, ['error' => 'Order ID is required']);
+            die();
+        }
+
+        $response = $this->orderItemsController->readByOrderId($data);
+        if(!$response) {
+            Helper::sendResponse(400, ['error' => 'Error reading order']);
+            die();
+        }
+        Helper::sendResponse(200, $response);
     }
     #endregion
 
