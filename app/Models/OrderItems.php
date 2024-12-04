@@ -24,7 +24,7 @@ class OrderItems extends Model{
                       order_items.price, 
                       order_items.total
                     FROM  {$this->table}
-                    JOIN products ON products.id = order_items.product_id
+                    JOIN Products ON products.id = order_items.product_id
                     WHERE order_items.order_id = :order_id;";
       $stmt = $this->db->prepare($query);
       $stmt->bindParam(':order_id', $params, Helper::getParamType($params));

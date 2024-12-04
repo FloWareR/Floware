@@ -198,13 +198,13 @@ class APIController {
             Helper::sendResponse(400, ['error' => 'Order ID is required']);
             die();
         }
-
         $response = $this->orderItemsController->readByOrderId($data);
         if(!$response) {
             Helper::sendResponse(400, ['error' => 'Error reading order']);
             die();
         }
-        Helper::sendResponse(200, $response);
+    
+        Helper::sendResponse(200,['error' => 'Order ID is required'] );
     }
     #endregion
 
