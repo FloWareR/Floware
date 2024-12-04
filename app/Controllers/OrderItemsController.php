@@ -13,7 +13,7 @@ class OrderItemsController extends Controller{
     public function __construct() {
         $this->model = new OrderItems();
 
-        parent::__construct($this->model, 'order_items');
+        parent::__construct($this->model, 'Order_items');
     }
 
     public function add($data, $requiredData) {

@@ -204,7 +204,7 @@ class APIController {
             die();
         }
     
-        Helper::sendResponse(200,['error' => 'Order ID is required'] );
+        Helper::sendResponse(200,$response );
     }
     #endregion
 
