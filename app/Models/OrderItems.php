@@ -24,7 +24,7 @@ class OrderItems extends Model{
                       {$this->table}.price, 
                       {$this->table}.total
                     FROM  {$this->table}
-                    JOIN Products ON products.id = {$this->table}.product_id
+                    JOIN Products ON Products.id = {$this->table}.product_id
                     WHERE {$this->table}.order_id = :order_id;";
 
       $stmt = $this->db->prepare($query);
