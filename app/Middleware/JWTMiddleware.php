@@ -6,57 +6,59 @@ use App\Controllers\Helper;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
-class JWTMiddleware {
+class JWTMiddleware
+{
+    private $secretKey;
 
-  private $secretKey;
-
-  public function __construct() {
-    $this->secretKey = $_ENV['SECRET_KEY'];
-  }
-
-  public function runMiddleware($clearance) {
-    $headers = apache_request_headers();
-    $authHeader = $headers['token'] ?? null;
-    if ($authHeader && preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
-        $token = $matches[1];
-        try {
-            $decoded = JWT::decode($token, new Key($this->secretKey, 'HS256'));
-            $roleHierachy = [
-                'admin' => 3,
-                'manager' => 2,
-                'staff' => 1,
-            ];
-            $userRole = $decoded->role ?? null;
-            if($roleHierachy[$userRole] < $roleHierachy[$clearance]){
-              Helper::class::sendResponse(401, ['error' => 'Manager access required']);
-              exit;
-            }
-            $_SESSION['user'] = [
-              'id' => $decoded->id,
-              'username' => $decoded->sub,
-              'role' => $userRole
-          ];
-            return true;
-        } catch (\Exception $e) {
-            return false;
-        }
+    public function __construct()
+    {
+        $this->secretKey = $_ENV['SECRET_KEY'] ?? 'floware_studio_default_secret_key_2026';
     }
-  return false;
+
+    public function runMiddleware($clearance)
+    {
+        $headers = apache_request_headers();
+        $authHeader = $headers['token'] ?? null;
+        if ($authHeader && preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
+            $token = $matches[1];
+            try {
+                $decoded = JWT::decode($token, new Key($this->secretKey, 'HS256'));
+                $roleHierachy = [
+                    'admin' => 3,
+                    'manager' => 2,
+                    'staff' => 1,
+                ];
+                $userRole = $decoded->role ?? null;
+                if ($roleHierachy[$userRole] < $roleHierachy[$clearance]) {
+                    Helper::class::sendResponse(401, ['error' => 'Manager access required']);
+                    exit;
+                }
+                $_SESSION['user'] = [
+                    'id' => $decoded->id,
+                    'username' => $decoded->sub,
+                    'role' => $userRole,
+                ];
+                return true;
+            } catch (\Exception $e) {
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public function generateToken($username, $role, $id)
+    {
+        $issuedAt = time();
+        $expiration = $issuedAt + 5400; //1.5 hours
+
+        $payload = [
+            'iat' => $issuedAt,
+            'exp' => $expiration,
+            'sub' => $username,
+            'role' => $role,
+            'id' => $id,
+        ];
+        return JWT::encode($payload, $this->secretKey, 'HS256');
+    }
 }
 
-  public function generateToken($username, $role, $id) {
-    $issuedAt = time();
-    $expiration = $issuedAt + 5400; //1.5 hours
-
-    $payload = [
-        'iat' => $issuedAt,
-        'exp' => $expiration,
-        'sub' => $username,
-        'role' => $role,
-        'id' => $id
-    ];
-
-    return JWT::encode($payload, $this->secretKey, 'HS256');
-}
-
-}

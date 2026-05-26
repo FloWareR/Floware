@@ -4,19 +4,20 @@ namespace App\Controllers;
 
 use App\Models\OrderItems;
 
-
-class OrderItemsController extends Controller{
-
+class OrderItemsController extends Controller
+{
     private $model;
 
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->model = new OrderItems();
 
         parent::__construct($this->model, 'Order_items');
     }
 
-    public function add($data, $requiredData) {
+    public function add($data, $requiredData)
+    {
         $ids = [];
         foreach ($data['order_data'] as $key) {
             if (!isset($key) || empty($key)) {
@@ -31,10 +32,9 @@ class OrderItemsController extends Controller{
         return $response;
     }
 
-    public function readByOrderId($data) {
+    public function readByOrderId($data)
+    {
         $response = $this->model->readByOrderId($data['id']);
         return $response;
     }
-
-
-} 
+}

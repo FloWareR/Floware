@@ -5,36 +5,43 @@ namespace App\Models;
 use App\Database;
 use App\Controllers\Helper;
 
-class Product extends Model{
-        
-    public function __construct() {
+class Product extends Model
+{
+    public function __construct()
+    {
         parent::__construct('Products');
     }
-        
-    public function readAll(){
+
+    public function readAll()
+    {
         return parent::readAll();
     }
-        
-    public function readById($params){
+
+    public function readById($params)
+    {
         return parent::readById($params);
     }
-    
-    public function create($params){
+
+    public function create($params)
+    {
         return parent::create($params);
     }
-    
-    public function update($params){
+
+    public function update($params)
+    {
         return parent::update($params);
     }
-    
-    public function delete($params){
+
+    public function delete($params)
+    {
         return parent::delete($params);
     }
 
-    public function readColumn($params){
+    public function readColumn($params)
+    {
         try {
             $queryParts = [];
-            foreach($params['read_column'] as $key){
+            foreach ($params['read_column'] as $key) {
                 $queryParts[] = "$key";
             }
             $query = "SELECT " . implode(', ', $queryParts) . " FROM {$this->table} WHERE id = :id";
@@ -46,6 +53,4 @@ class Product extends Model{
             return ['message' => "Error reading $this->table" . $e->getMessage()];
         }
     }
-
 }
-
